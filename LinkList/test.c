@@ -26,3 +26,37 @@
 //		printf("%d\t", a[i]);
 //	return 0;
 //}
+
+/*Dereferencing NULL pointer <name> */
+//#include <stdio.h>
+//#include <malloc.h>
+//
+////* This following code generates this warning. */
+//void f()
+//{
+//	char* p = (char*)malloc(10);
+//	*p = '\0';
+//
+//	// code ...
+//	free(p);
+//}
+//
+////* To correct this warning, examine the pointer 
+//	for a null value as shown the following code: */
+//void f2()
+//{
+//	char* p = (char*)malloc(10);
+//
+//	if (p) {
+//		*p = '\0';
+//		// code...
+//		free(p);
+//	}
+//}
+//
+//int main() {
+//	f();
+//	f2();
+//	return 0;
+//}
+
