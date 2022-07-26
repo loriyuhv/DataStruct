@@ -170,13 +170,48 @@
 //			}
 //	return;
 //}
-/*myCoding*/
-//#include<stdio.h>
-//#include<malloc.h>
-//#include<stdlib.h>
+// typedef
+//# include<stdio.h>
 //
-//#define bool char
-//#define true 1
-//#define false 0
+//typedef int a;	/*为int再重新多取一个名字，a等价于int*/
+//
+//typedef struct Student {
+//	int id;
+//	char name[100];
+//	char sex;
+//}ST;	/* ST等价于struct Student */
+//
+//int main() {
+//	int i = 10;	/* 等价于 a i = 10 */
+//	a j = 10;
+//	printf("i = %d, j = %d\n", i, j);
+//
+//	struct Student st;	/* 等价于 ST st */
+//	struct Student* ps = &st; /* 等价于ST* ps = &st */
+//	ST st2;
+//	ps->id = 20197360;
+//	st2 = st;
+//	printf("%d\n", st2.id);
+//
+//	return 0;
+//}
+// 复杂一点
+//# include<stdio.h>
+//
+//typedef struct Student {
+//	int id;
+//	char name[100];
+//	char sex;
+//}* PST, ST; /* PST 等价于 struct Student*,ST 等价于 struct Student */
+//
+//int main() {
+//	ST st;
+//	PST ps = &st;
+//	ps->id = 20197360;
+//	printf("%d\n", ps->id);
+//
+//	return 0;
+//}
+/**/
 
 
