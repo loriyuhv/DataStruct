@@ -331,6 +331,102 @@
 
 /*2022/8/19练习*/
 //离散存储
+//#include<stdio.h>
+//#include<malloc.h>
+//#include<stdlib.h>
+//
+//#define bool char
+//#define true 1
+//#define false 0
+//
+//
+//typedef struct Node {
+//	int data;	/*数据域*/
+//	struct Node* pNext;	/*指针域*/
+//}*PNODE, NODE; 
+// 
+//1) NODE = struct Node
+//2) PNODE = struct Node*
+//
+//
+//PNODE create_list();
+//bool is_empty(PNODE pHead);
+//void traverse_list(PNODE pHead);
+//
+//int main() { 
+//	PNODE pHead = NULL;
+//	// 创建一个非循环单链表，并将该链表的头结点的地址赋给pHead
+//	pHead = create_list();
+//	if (is_empty(pHead)) {
+//		printf("链表为空！！！\n");
+//	}
+//	traverse_list(pHead);
+//
+//	return 0;
+//}
+//
+//PNODE create_list() {
+//	int len; /* 用来存放节点的个数 */
+//	int i;
+//	int val; /* 用来临时存放用户输入结点的值 */
+//
+//	/* 分配了一个不存放有效数据的头节点 */
+//	PNODE pHead = (PNODE)malloc(sizeof(NODE));
+//	if (pHead == NULL) {
+//		printf("分配失败，程序终止！！！\n");
+//		exit(-1);
+//	}
+//	PNODE pTail = pHead;
+//	pTail->pNext = NULL;
+//
+//	printf("请输入您要生成链表节点的个数：len = ");
+//	scanf_s("%d", &len);
+//	loop:if (len < 0) {
+//		printf("输入错误，请输入大于1的整数：");
+//		scanf_s("%d", &len);
+//		goto loop;
+//	}
+//
+//	for (i = 0; i < len; i++) {
+//		printf("请输入%d个节点的值：", i + 1);
+//		scanf_s("%d", &val);
+//
+//		PNODE pNew = (PNODE)malloc(sizeof(NODE));
+//		if (pNew == NULL) {
+//			printf("分配失败，程序终止！！！\n");
+//			exit(-1);
+//		}
+//		pNew->data = val;
+//		pTail->pNext = pNew;
+//		pNew->pNext = NULL;
+//		pTail = pNew;
+//	}
+//
+//	return pHead;
+//}
+//bool is_empty(PNODE pHead) {
+//	if (pHead->pNext == NULL) {
+//		return true;
+//	}
+//	else {
+//		return false;
+//	}
+//}
+//void traverse_list(PNODE pHead) {
+//	if (is_empty(pHead))
+//		printf("链表为空！！！\n");
+//	PNODE p = pHead->pNext;
+//
+//	while (p != NULL) {
+//		printf("%d\t", p->data);
+//		p = p->pNext;
+//	}
+//	return;
+//}
+
+
+/*2022/9/16练习*/
+// 连续存储数组
 #include<stdio.h>
 #include<malloc.h>
 #include<stdlib.h>
@@ -339,62 +435,140 @@
 #define true 1
 #define false 0
 
+// 定义了一个数据类型，该数据类型的名字叫做struct arr
+// 该数据类型含有三个成员，分别是pBase, len, cnt
+typedef struct arr {
+	int* pBase;	// 存储数组第一个元素的地址
+	int len;	// 数据最大长度
+	int cnt;	// 数组当前长度
+}Arr, *pArr;
 
-typedef struct Node {
-	int data;	/*数据域*/
-	struct Node* pNext;	/*指针域*/
-}*PNODE, NODE; 
-/* 
-1) NODE = struct Node
-2) PNODE = struct Node*
-*/
+void init_arr(pArr p, int len);		/*初始化函数声明*/
+void show_arr(pArr p);				/*遍历函数声明*/
+void sort_arr(pArr p);				/*排序函数声明（降序）*/
+bool append_arr(pArr p, int val);	/*追加函数声明*/
+bool insert_arr(pArr p, int val, int pos); /*插入函数声明*/
+bool delete_arr(pArr p, int* val, int pos);	/*删除函数声明*/
+bool is_full(pArr p);				/*是否为满声明*/
+bool is_empty(pArr p);				/*是否为空声明*/
 
-PNODE create_list();
 
-int main() { 
-	PNODE pHead = NULL;
-	// 创建一个非循环单链表，并将该链表的头结点的地址赋给pHead
-	pHead = create_list();
+int main() {
+	Arr arr;
+	init_arr(&arr, 6);	/*初始化数组，并且长度为6*/
+	//添加元素
+	for (int i = 0; i < 4; i++) {
+		if (append_arr(&arr, i + 1)) {
+			printf("添加元素%d成功！！！\n", i + 1);
+		} 
+		else {
+			printf("添加元素%d失败！！！\n", i + 1);
+		}
+	}
+	
+	show_arr(&arr);
+	/*insert_arr(&arr, 5, 6);*/
+	int e;
+	if (delete_arr(&arr, &e, 0)) {
+		printf("删除位置%d元素%d成功！！！\n", 0, e);
+	}
+	else {
+		printf("删除失败!!!\n");
+	}
+	sort_arr(&arr);
+	show_arr(&arr);
 
 	return 0;
 }
 
-PNODE create_list() {
-	int len; /* 用来存放节点的个数 */
-	int i;
-	int val; /* 用来临时存放用户输入结点的值 */
-
-	/* 分配了一个不存放有效数据的头节点 */
-	PNODE pHead = (PNODE)malloc(sizeof(NODE));
-	if (pHead == NULL) {
-		printf("分配失败，程序终止！！！\n");
+void init_arr(pArr p, int len) {
+	p->pBase = (pArr)malloc(sizeof(int) * len);
+	if (NULL == p->pBase) {
+		printf("动态内存分配失败！！！\n");
 		exit(-1);
 	}
-	PNODE pTail = pHead;
-	pTail->pNext = NULL;
-
-	printf("请输入您要生成链表节点的个数：len = ");
-	scanf_s("%d", &len);
-	loop:if (len < 1) {
-		printf("输入错误，请输入大于1的整数：");
-		scanf_s("%d", &len);
-		goto loop;
+	p->len = len;
+	p->cnt = 0;
+	return;
+}
+void show_arr(pArr p) {
+	if (is_empty(p)) {
+		printf("数组为空！！！\n");
 	}
 
-	for (i = 0; i < len; i++) {
-		printf("请输入%d个节点的值：", i + 1);
-		scanf_s("%d", &val);
-
-		PNODE pNew = (PNODE)malloc(sizeof(NODE));
-		if (pNew == NULL) {
-			printf("分配失败，程序终止！！！\n");
-			exit(-1);
+	for (int i = 0; i < p->cnt; i++) {
+		printf("%d\t", p->pBase[i]);
+	}
+	printf("\n");
+	return;
+}
+void sort_arr(pArr p) {
+	if (is_empty(p)) {
+		printf("数组为空！！！\n");
+	}
+	// 1 2 3 4
+	int i = 0, j = 0, t;
+	for (i = 0; i < p->cnt - 1; i++) {
+		for (j = i + 1; j < p->cnt; j++) {
+			if (p->pBase[i] < p->pBase[j]) {
+				t = p->pBase[i];
+				p->pBase[i] = p->pBase[j];
+				p->pBase[j] = t;
+			}
 		}
-		pNew->data = val;
-		pTail->pNext = pNew;
-		pNew->pNext = NULL;
-		pTail = pNew;
 	}
-
-	return pHead;
+}
+bool append_arr(pArr p, int val) {
+	if (is_full(p)) {
+		return false;
+	}
+	p->pBase[p->cnt] = val;
+	p->cnt++;
+	return true;
+}
+bool insert_arr(pArr p, int val, int pos) {
+	if (is_full(p)) {
+		return false;
+	}
+	if (pos < 1 || pos > p->cnt + 1) {
+		return false;
+	}
+	// 1 2 3 4
+	for (int i = p->cnt - 1; i > pos - 2; i--) {
+		p->pBase[i+1] = p->pBase[i];
+	}
+	p->pBase[pos - 1] = val;
+	p->cnt++;
+	return true;
+}
+bool delete_arr(pArr p, int* val, int pos) {
+	if (is_empty(p)) {
+		return false;
+	}
+	if (pos < 1 || pos > p->cnt) {
+		return false;
+	}
+	// 1 2 3 4  2
+	*val = p->pBase[pos - 1];
+	for (int i = pos - 1; i <= p->cnt; i++) {
+		p->pBase[i] = p->pBase[i + 1];
+	}
+	p->cnt--;
+	return true;
+}
+bool is_full(pArr p) {
+	if (p->len == p->cnt) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+bool is_empty(pArr p) {
+	if (0 == p->cnt) {
+		return true;
+	}
+	else {
+		return false;
+	}
 }
