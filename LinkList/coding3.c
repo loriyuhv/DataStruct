@@ -427,148 +427,367 @@
 
 /*2022/9/16练习*/
 // 连续存储数组
-#include<stdio.h>
-#include<malloc.h>
-#include<stdlib.h>
+//#include<stdio.h>
+//#include<malloc.h>
+//#include<stdlib.h>
+//
+//#define bool char
+//#define true 1
+//#define false 0
+//
+//// 定义了一个数据类型，该数据类型的名字叫做struct arr
+//// 该数据类型含有三个成员，分别是pBase, len, cnt
+//typedef struct arr {
+//	int* pBase;	// 存储数组第一个元素的地址
+//	int len;	// 数据最大长度
+//	int cnt;	// 数组当前长度
+//}Arr, *pArr;
+//
+//void init_arr(pArr p, int len);		/*初始化函数声明*/
+//void show_arr(pArr p);				/*遍历函数声明*/
+//void sort_arr(pArr p);				/*排序函数声明（降序）*/
+//bool append_arr(pArr p, int val);	/*追加函数声明*/
+//bool insert_arr(pArr p, int val, int pos); /*插入函数声明*/
+//bool delete_arr(pArr p, int* val, int pos);	/*删除函数声明*/
+//bool is_full(pArr p);				/*是否为满声明*/
+//bool is_empty(pArr p);				/*是否为空声明*/
+//
+//
+//int main() {
+//	Arr arr;
+//	init_arr(&arr, 6);	/*初始化数组，并且长度为6*/
+//	//添加元素
+//	for (int i = 0; i < 4; i++) {
+//		if (append_arr(&arr, i + 1)) {
+//			printf("添加元素%d成功！！！\n", i + 1);
+//		} 
+//		else {
+//			printf("添加元素%d失败！！！\n", i + 1);
+//		}
+//	}
+//	
+//	show_arr(&arr);
+//	/*insert_arr(&arr, 5, 6);*/
+//	int e;
+//	if (delete_arr(&arr, &e, 0)) {
+//		printf("删除位置%d元素%d成功！！！\n", 0, e);
+//	}
+//	else {
+//		printf("删除失败!!!\n");
+//	}
+//	sort_arr(&arr);
+//	show_arr(&arr);
+//
+//	return 0;
+//}
+//
+//void init_arr(pArr p, int len) {
+//	p->pBase = (pArr)malloc(sizeof(int) * len);
+//	if (NULL == p->pBase) {
+//		printf("动态内存分配失败！！！\n");
+//		exit(-1);
+//	}
+//	p->len = len;
+//	p->cnt = 0;
+//	return;
+//}
+//void show_arr(pArr p) {
+//	if (is_empty(p)) {
+//		printf("数组为空！！！\n");
+//	}
+//
+//	for (int i = 0; i < p->cnt; i++) {
+//		printf("%d\t", p->pBase[i]);
+//	}
+//	printf("\n");
+//	return;
+//}
+//void sort_arr(pArr p) {
+//	if (is_empty(p)) {
+//		printf("数组为空！！！\n");
+//	}
+//	// 1 2 3 4
+//	int i = 0, j = 0, t;
+//	for (i = 0; i < p->cnt - 1; i++) {
+//		for (j = i + 1; j < p->cnt; j++) {
+//			if (p->pBase[i] < p->pBase[j]) {
+//				t = p->pBase[i];
+//				p->pBase[i] = p->pBase[j];
+//				p->pBase[j] = t;
+//			}
+//		}
+//	}
+//}
+//bool append_arr(pArr p, int val) {
+//	if (is_full(p)) {
+//		return false;
+//	}
+//	p->pBase[p->cnt] = val;
+//	p->cnt++;
+//	return true;
+//}
+//bool insert_arr(pArr p, int val, int pos) {
+//	if (is_full(p)) {
+//		return false;
+//	}
+//	if (pos < 1 || pos > p->cnt + 1) {
+//		return false;
+//	}
+//	// 1 2 3 4
+//	for (int i = p->cnt - 1; i > pos - 2; i--) {
+//		p->pBase[i+1] = p->pBase[i];
+//	}
+//	p->pBase[pos - 1] = val;
+//	p->cnt++;
+//	return true;
+//}
+//bool delete_arr(pArr p, int* val, int pos) {
+//	if (is_empty(p)) {
+//		return false;
+//	}
+//	if (pos < 1 || pos > p->cnt) {
+//		return false;
+//	}
+//	// 1 2 3 4  2
+//	*val = p->pBase[pos - 1];
+//	for (int i = pos - 1; i <= p->cnt; i++) {
+//		p->pBase[i] = p->pBase[i + 1];
+//	}
+//	p->cnt--;
+//	return true;
+//}
+//bool is_full(pArr p) {
+//	if (p->len == p->cnt) {
+//		return true;
+//	}
+//	else {
+//		return false;
+//	}
+//}
+//bool is_empty(pArr p) {
+//	if (0 == p->cnt) {
+//		return true;
+//	}
+//	else {
+//		return false;
+//	}
+//}
 
-#define bool char
-#define true 1
-#define false 0
+/*2022/9/17练习*/
+// 连续存储数组
+//# include<stdio.h>
+//# include<malloc.h>
+//# include<stdlib.h>
+//
+//# define bool char
+//# define true 1
+//# define false 0
+//
+//typedef struct arr {
+//	int* pBase;
+//	int len;
+//	int cnt;
+//}*pArr, Arr;
+//
+//void init_arr(pArr p, int len);
+//void show_arr(pArr p);
+//void sort_arr(pArr p);
+//void traverse_arr(pArr p);
+//bool append_arr(pArr p, int val);
+//bool insert_arr(pArr p, int val, int pos);
+//bool delete_arr(pArr p, int* val, int pos);
+//bool is_full(pArr p);
+//bool is_empty(pArr p);
+//
+//
+//
+//int main() {
+//	Arr arr;
+//	init_arr(&arr, 6);
+//	for (int i = 0; i < 5; i++) {
+//		if (append_arr(&arr, i + 1)) {
+//			printf("添加%d元素成功!!!\n", i + 1);
+//		}
+//		else {
+//			printf("添加%d元素失败！！！\n", i + 1);
+//		}
+//	}
+//	show_arr(&arr);
+//	/*insert_arr(&arr, 88, 0);
+//	int e;
+//	delete_arr(&arr, &e, 0);
+//	printf("%d\n", e);
+//	sort_arr(&arr);*/
+//	traverse_arr(&arr);
+//	show_arr(&arr);
+//	return 0;
+//}
+//
+//void init_arr(pArr p, int len) {
+//	p->pBase = (pArr)malloc(sizeof(int) * len);
+//	if (NULL == p->pBase) {
+//		printf("动态内存分配失败！！！\n");
+//		exit(-1);
+//	}
+//	p->len = len;
+//	p->cnt = 0;
+//	return;
+//}
+//void show_arr(pArr p) {
+//	if (is_empty(p)) {
+//		printf("数组为空！！！\n");
+//	}
+//	for (int i = 0; i < p->cnt; i++) {
+//		printf("%d\t", p->pBase[i]);
+//	}
+//	printf("\n");
+//	return;
+//}
+//void sort_arr(pArr p) {
+//	if (is_empty(p)) {
+//		printf("数组为空！！！\n");
+//	}
+//	// 1 2 3 4
+//	int t;
+//	for (int i = 0; i < p->cnt - 1; i++) {
+//		for (int j = i + 1; j < p->cnt; j++) {
+//			if (p->pBase[i] < p->pBase[j]) {
+//				t = p->pBase[i];
+//				p->pBase[i] = p->pBase[j];
+//				p->pBase[j] = t;
+//			}
+//		}
+//	}
+//	return;
+//}
+//void traverse_arr(pArr p) {
+//	if (is_empty(p)) {
+//		printf("数组为空！！！\n");
+//	}
+//	else {
+//		// 1 2 3 4
+//		int i = 0, j = p->cnt - 1, t;
+//		while (i <= j) {
+//			t = p->pBase[i];
+//			p->pBase[i] = p->pBase[j];
+//			p->pBase[j] = t;
+//			i++;
+//			j--;
+//		}
+//	}
+//	return;
+//}
+//bool append_arr(pArr p, int val) {
+//	if (is_full(p)) {
+//		return false;
+//	}
+//	p->pBase[p->cnt] = val;
+//	p->cnt++;
+//	return true;
+//}
+//bool insert_arr(pArr p, int val, int pos) {
+//	if (is_full(p) || pos < 1 || pos > p->cnt + 1) {
+//		return false;
+//	}
+//	for (int i = p->cnt - 1; i > pos - 2; i--) {
+//		p->pBase[i + 1] = p->pBase[i];
+//	}
+//	p->pBase[pos - 1] = val;
+//	p->cnt++;
+//	return true;
+//}
+//bool delete_arr(pArr p, int* val, int pos) {
+//	if (is_empty(p) || pos < 1 || pos > p->cnt) {
+//		return false;
+//	}
+//	*val = p->pBase[pos - 1];
+//	for (int i = pos - 1; i < p->cnt; i++) {
+//		p->pBase[i] = p->pBase[i + 1];
+//	}
+//	p->cnt--;
+//	return true;
+//}
+//bool is_full(pArr p) {
+//	if (p->cnt == p->len) {
+//		return true;
+//	}
+//	else {
+//		return false;
+//	}
+//}
+//bool is_empty(pArr p) {
+//	if (p->cnt == 0) {
+//		return true;
+//	}
+//	else {
+//		return false;
+//	}
+//}
 
-// 定义了一个数据类型，该数据类型的名字叫做struct arr
-// 该数据类型含有三个成员，分别是pBase, len, cnt
-typedef struct arr {
-	int* pBase;	// 存储数组第一个元素的地址
-	int len;	// 数据最大长度
-	int cnt;	// 数组当前长度
-}Arr, *pArr;
-
-void init_arr(pArr p, int len);		/*初始化函数声明*/
-void show_arr(pArr p);				/*遍历函数声明*/
-void sort_arr(pArr p);				/*排序函数声明（降序）*/
-bool append_arr(pArr p, int val);	/*追加函数声明*/
-bool insert_arr(pArr p, int val, int pos); /*插入函数声明*/
-bool delete_arr(pArr p, int* val, int pos);	/*删除函数声明*/
-bool is_full(pArr p);				/*是否为满声明*/
-bool is_empty(pArr p);				/*是否为空声明*/
-
-
-int main() {
-	Arr arr;
-	init_arr(&arr, 6);	/*初始化数组，并且长度为6*/
-	//添加元素
-	for (int i = 0; i < 4; i++) {
-		if (append_arr(&arr, i + 1)) {
-			printf("添加元素%d成功！！！\n", i + 1);
-		} 
-		else {
-			printf("添加元素%d失败！！！\n", i + 1);
-		}
-	}
-	
-	show_arr(&arr);
-	/*insert_arr(&arr, 5, 6);*/
-	int e;
-	if (delete_arr(&arr, &e, 0)) {
-		printf("删除位置%d元素%d成功！！！\n", 0, e);
-	}
-	else {
-		printf("删除失败!!!\n");
-	}
-	sort_arr(&arr);
-	show_arr(&arr);
-
-	return 0;
-}
-
-void init_arr(pArr p, int len) {
-	p->pBase = (pArr)malloc(sizeof(int) * len);
-	if (NULL == p->pBase) {
-		printf("动态内存分配失败！！！\n");
-		exit(-1);
-	}
-	p->len = len;
-	p->cnt = 0;
-	return;
-}
-void show_arr(pArr p) {
-	if (is_empty(p)) {
-		printf("数组为空！！！\n");
-	}
-
-	for (int i = 0; i < p->cnt; i++) {
-		printf("%d\t", p->pBase[i]);
-	}
-	printf("\n");
-	return;
-}
-void sort_arr(pArr p) {
-	if (is_empty(p)) {
-		printf("数组为空！！！\n");
-	}
-	// 1 2 3 4
-	int i = 0, j = 0, t;
-	for (i = 0; i < p->cnt - 1; i++) {
-		for (j = i + 1; j < p->cnt; j++) {
-			if (p->pBase[i] < p->pBase[j]) {
-				t = p->pBase[i];
-				p->pBase[i] = p->pBase[j];
-				p->pBase[j] = t;
-			}
-		}
-	}
-}
-bool append_arr(pArr p, int val) {
-	if (is_full(p)) {
-		return false;
-	}
-	p->pBase[p->cnt] = val;
-	p->cnt++;
-	return true;
-}
-bool insert_arr(pArr p, int val, int pos) {
-	if (is_full(p)) {
-		return false;
-	}
-	if (pos < 1 || pos > p->cnt + 1) {
-		return false;
-	}
-	// 1 2 3 4
-	for (int i = p->cnt - 1; i > pos - 2; i--) {
-		p->pBase[i+1] = p->pBase[i];
-	}
-	p->pBase[pos - 1] = val;
-	p->cnt++;
-	return true;
-}
-bool delete_arr(pArr p, int* val, int pos) {
-	if (is_empty(p)) {
-		return false;
-	}
-	if (pos < 1 || pos > p->cnt) {
-		return false;
-	}
-	// 1 2 3 4  2
-	*val = p->pBase[pos - 1];
-	for (int i = pos - 1; i <= p->cnt; i++) {
-		p->pBase[i] = p->pBase[i + 1];
-	}
-	p->cnt--;
-	return true;
-}
-bool is_full(pArr p) {
-	if (p->len == p->cnt) {
-		return true;
-	}
-	else {
-		return false;
-	}
-}
-bool is_empty(pArr p) {
-	if (0 == p->cnt) {
-		return true;
-	}
-	else {
-		return false;
-	}
-}
+/*2022/9/19练习*/
+//# include<stdio.h>
+//# include<malloc.h>
+//# include<stdlib.h>
+//
+//# define bool char
+//# define true 1
+//# define false 0
+//
+//typedef struct node {
+//	int data;
+//	struct node* pNext;
+//}*PNODE, NODE;
+//
+//PNODE create_list(PNODE pHead);
+//void traverse_list(PNODE pHead);
+//
+//int main() {
+//	PNODE pHead = NULL;
+//	pHead = create_list(pHead);
+//	traverse_list(pHead);
+//	return 0;
+//}
+//
+//PNODE create_list(PNODE pHead) {
+//	pHead = (PNODE)malloc(sizeof(NODE));
+//	if (NULL == pHead) {
+//		printf("动态内存分配地址失败！！！\n");
+//		exit(-1);
+//	}
+//
+//	PNODE pTail = pHead;
+//	pTail->pNext = NULL;
+//
+//	int len, val, i;
+//	printf("请输入创建单链表的长度：len = ");
+//	scanf_s("%d", &len);
+//
+//	for (i = 0; i < len; i++) {
+//		printf("请输入第%d个节点的值：", i + 1);
+//		scanf_s("%d", &val);
+//		PNODE pNew = (PNODE)malloc(sizeof(NODE));
+//		if (NULL == pNew) {
+//			printf("动态内存分配失败！！！\n");
+//			exit(-1);
+//		}
+//		pNew->data = val;
+//		pNew->pNext = NULL;
+//		pTail->pNext = pNew;
+//		pTail = pNew;
+//	}
+//	return pHead;
+//}
+//void traverse_list(PNODE pHead) {
+//	if (pHead->pNext == NULL) {
+//		printf("空链表！！！\n");
+//	}
+//	else {
+//		PNODE p = pHead->pNext;
+//		while (p != NULL) {
+//			printf("%d\t", p->data);
+//			p = p->pNext;
+//		}
+//		printf("\n");
+//	}
+//	return;
+//}
