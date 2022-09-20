@@ -229,23 +229,27 @@ typedef struct Node {
 
 PNODE create_list();
 bool is_empty(PNODE pHead);
+bool append_list(PNODE pHead, int val);
+bool insert_list(PNODE pHead, int val, int pos);
+bool delete_list(PNODE pHead, int* val, int pos);
 void traverse_list(PNODE pHead);
 int length_list(PNODE pHead);
 
 
 
 int main() {
+	int e;
 	PNODE pHead = NULL;
 	pHead = create_list();
 	traverse_list(pHead);
-	if (is_empty(pHead))
-		printf("链表为空！！！\n");
-	length_list(pHead);
+	append_list(pHead, 5);
+	traverse_list(pHead);
+
 	return 0;
 }
 
 PNODE create_list() {
-	int len;	/*用来存放节点的个数*/
+	int len;
 	int i;
 	int val;	/*用来临时存放节点的值*/
 	/* 分配了一个不存放有效数据的头节点 */
@@ -259,36 +263,91 @@ PNODE create_list() {
 
 	printf("请输入链表要生成节点的个数：len = ");
 	scanf_s("%d", &len);
-loop: if (len < 0) {
-	printf("输入错误，请重新输入大于1的整数：len = ");
-	scanf_s("%d", &len);
-	goto loop;
+
+	for (i = 0; i < len; i++) {
+		printf("请输入%d个节点的值：", i + 1);
+		scanf_s("%d", &val);
+		PNODE pNew = (PNODE)malloc(sizeof(NODE));
+		if (pNew == NULL) {
+			printf("动态内存分配失败！！！\n");
+			exit(-1);
+		}
+		pNew->data = val;
+		pNew->pNext = NULL;
+		pTail->pNext = pNew;
+		pTail = pNew;
+	}
+	return pHead;
 }
 
-for (i = 0; i < len; i++) {
-	printf("请输入%d个节点的值：", i + 1);
-	scanf_s("%d", &val);
-	PNODE pNew = (PNODE)malloc(sizeof(NODE));
-	if (pNew == NULL) {
-		printf("动态内存分配失败！！！\n");
-		exit(-1);
-	}
-	pNew->data = val;
-	pNew->pNext = NULL;
-	pTail->pNext = pNew;
-	pTail = pNew;
-}
-return pHead;
-}
 bool is_empty(PNODE pHead) {
 	if (pHead->pNext == NULL) {
-		printf("链表为空！！！\n");
 		return true;
 	}
 	else {
-		printf("链表不空！！！");
 		return false;
 	}
+}
+bool append_list(PNODE pHead, int val) {
+	PNODE pNew = (PNODE)malloc(sizeof(NODE));
+	if (NULL == pNew) {
+		printf("动态内存分配失败！！！\n");
+		exit(-1);
+	}
+	PNODE p = pHead->pNext, q = NULL;
+	while (p != NULL) {
+		p = p->pNext;
+		if (p != NULL) {
+			q = p;
+		}
+	}
+	pNew->data = val;
+	pNew->pNext = q->pNext;
+	q->pNext = pNew;
+	return true;
+}
+bool insert_list(PNODE pHead, int val, int pos) {
+	if (pos < 1 || pos > length_list(pHead) + 1) {
+		return false;
+	}
+	// 1 2 3 4
+	int i;
+	PNODE p = pHead;
+
+	for (i = 1; i < pos; i++) {
+		p = p->pNext;
+	}
+	PNODE pNew = (PNODE)malloc(sizeof(NODE));
+	if (NULL == pNew) {
+		printf("动态内存分配失败！！！\n");
+		exit(-1);
+	}
+
+	pNew->data = val;
+	pNew->pNext = p->pNext;
+	p->pNext = pNew;
+	return true;
+}
+bool delete_list(PNODE pHead, int* val, int pos) {
+	if (is_empty(pHead)) {
+		return false;
+	}
+	if (pos < 1 || pos > length_list(pHead)) {
+		return false;
+	}
+	int i;
+	PNODE p = pHead, q;
+	// 1 2 3  2
+	for (i = 0; i < pos - 1; i++) {
+		p = p->pNext;
+	}
+	q = p->pNext;
+	*val = q->data;
+	q = q->pNext;
+	free(p->pNext);
+	//printf("%d!!!!!!\n", p->pNext->data);
+	p->pNext = q;
+	return true;
 }
 void traverse_list(PNODE pHead) {
 	PNODE p = pHead->pNext;
@@ -300,5 +359,15 @@ void traverse_list(PNODE pHead) {
 	return;
 }
 int length_list(PNODE pHead) {
+	if (pHead->pNext == NULL) {
+		return 0;
+	}
+	int i = 0;
+	PNODE p = pHead->pNext;
+	while (p != NULL) {
+		i++;
+		p = p->pNext;
+	}
+	return i;
 }
 
