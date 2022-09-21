@@ -1,3 +1,94 @@
+// 2022/9/21练习
+# include<stdio.h>
+# include<malloc.h>
+# include<stdlib.h>
+
+# define bool char
+# define true 1
+# define false 0
+# define MAXSIZE 10
+
+typedef int ElemType;
+typedef struct {
+	ElemType data[MAXSIZE];
+	int length;	/*线性表当前长度*/
+
+}SqList;
+
+void InitList(SqList* L);
+bool ListInsert(SqList* L, int i, ElemType e);
+bool ListInsert01(SqList* L, int i, ElemType e);
+void ListTraverse(SqList* L);
+
+int main() {
+	SqList L;
+	InitList(&L);
+	int i = 0;
+	for (i = 0; i < 5; i++) {
+		ListInsert(&L, i + 1, i + 1);
+	}
+	ListInsert(&L, 6, 88);
+	ListTraverse(&L);
+	return 0;
+}
+
+void InitList(SqList* L) {
+	L->length = 0;
+}
+bool ListInsert01(SqList* L, int i, ElemType e) {
+	int k;
+	/*如果插入位置不合理，抛出异常*/
+	if (i < 1 || i > L->length + 1)
+		return false;
+	/*如果线性表长度大于或等于数组长度，则抛出异常或动态增加容量*/
+	if (L->length >= MAXSIZE) {
+		return false;
+	}
+	/*从最后一个元素开始遍历到第i个位置，分别都将他们向后移动一个位置*/
+	for (k = L->length - 1; k >= i - 1; k--) {
+		L->data[i + 1] = L->data[i];
+	}
+	/*将要插入元素填入位置i处*/
+	L->data[i - 1] = e;
+	/*表长加1*/
+	L->length++;
+	return true;
+}
+
+bool ListInsert(SqList* L, int i, ElemType e) {
+	int k;
+	/*如果插入位置不合理，抛出异常*/
+	if (i < 1 || i > L->length + 1) {
+		return false;
+	}
+	/*如果线性表长度大于等于数组长度，则抛出异常或动态增加容量*/
+	if (L->length >= MAXSIZE) {
+		return false;
+	}
+	/*从最后一个元素开始向前遍历到第i个位置，分别将它们都向后移动一个位置*/
+	for (k = L->length - 1; k >= i - 1; k--) {
+		L->data[k + 1] = L->data[k];
+	}
+	/*将要插入元素填入位置i处*/
+	L->data[i - 1] = e;
+	/*表长加1*/
+	L->length++;
+	return;
+}
+void ListTraverse(SqList* L) {
+	if (L->length == 0) {
+		printf("链表为空！！！\n");
+	}
+	else {
+		int k;
+		for (k = 0; k < L->length; k++) {
+			printf("%d\t", L->data[k]);
+		}
+		printf("\n");
+	}
+	return;
+}
+
 /*练习*/
 //#include <stdio.h>
 //#include <malloc.h>
@@ -789,5 +880,133 @@
 //		}
 //		printf("\n");
 //	}
+//	return;
+//}
+
+/*2022/9/21练习*/
+// 离散存储
+//# include<stdio.h>
+//# include<malloc.h>
+//# include<stdlib.h>
+//
+//# define bool char
+//# define true 1
+//# define false 0
+//
+//typedef struct node {
+//	int data;
+//	struct node* pNext;
+//}*PNODE, NODE;
+//
+//PNODE create_list();
+//bool insert_list(PNODE pHead, int pos, int val);
+//bool is_empty(PNODE pHead);
+//int length_list(PNODE pHead);
+//void traverse_list(PNODE pHead);
+//
+//int main() {
+//	PNODE pHead = NULL;
+//	pHead = create_list();
+//	traverse_list(pHead);
+//	insert_list(pHead, 2, 88);
+//	traverse_list(pHead);
+//	// printf("%d\n", length_list(pHead));
+//	return 0;
+//}
+//
+//PNODE create_list() {
+//	int i, len, val;
+//	PNODE pHead = (PNODE)malloc(sizeof(NODE));
+//	if (NULL == pHead) {
+//		printf("动态内存分配失败！！！\n");
+//		exit(-1);
+//	}
+//	PNODE pTail = pHead;
+//	pTail->pNext = NULL;
+//
+//	printf("请输入创建节点个数：len = ");
+//	scanf_s("%d", &len);
+//
+//	for (i = 0; i < len; i++) {
+//		printf("请输入第一个节点的值：");
+//		scanf_s("%d", &val);
+//		PNODE pNew = (PNODE)malloc(sizeof(NODE));
+//		if (NULL == pNew) {
+//			printf("动态内存分配失败！！！\n");
+//			exit(-1);
+//		}
+//		pNew->data = val;
+//		pNew->pNext = NULL;
+//		pTail->pNext = pNew;
+//		pTail = pNew;
+//	}
+//	return pHead;
+//}
+//bool insert_list(PNODE pHead, int pos, int val) {
+//	int i = 0, len = length_list(pHead);
+//	PNODE p = pHead;
+//
+//	if (pos < 1 || pos > len + 1) {
+//		return false;
+//	}
+//	// 1 2 3 4 2 88
+//	for (i = 0; i < pos - 1; i++) {
+//		p = p->pNext;
+//	}
+//	PNODE pNew = (PNODE)malloc(sizeof(NODE));
+//	if (NULL == pNew) {
+//		printf("动态内存分配失败！！！\n");
+//		exit(-1);
+//	}
+//	pNew->data = val;
+//	pNew->pNext = p->pNext;
+//	p->pNext = pNew;
+//	return true;
+//}
+//bool is_empty(PNODE pHead) {
+//	if (NULL == pHead->pNext) {
+//		return true;
+//	}
+//	else {
+//		return false;
+//	}
+//}
+//int length_list(PNODE pHead) {
+//	PNODE p = pHead->pNext;
+//	int i = 0;
+//	while (p != NULL) {
+//		i++;
+//		p = p->pNext;
+//	}
+//	return i;
+//}
+//void traverse_list(PNODE pHead) {
+//	PNODE p = pHead->pNext;
+//	while (p != NULL) {
+//		printf("%d\t", p->data);
+//		p = p->pNext;
+//	}
+//	printf("\n");
+//	return;
+//}
+//
+//
+//bool insert_list(PNODE pHead, int pos, int val) {
+//	int i = 0;
+//	PNODE p = pHead;
+//	while (NULL != p && i < pos - 1) {
+//		p = p->pNext;
+//		i++;
+//	}
+//	if (i > pos - 1 || NULL == p)
+//		return false;
+//	PNODE pNew = (PNODE)malloc(sizeof(NODE));
+//	if (NULL == pNew) {
+//		printf("动态内存分配失败！！！\n");
+//		exit(-1);
+//	}
+//	pNew->data = val;
+//	pNew->pNext = p->pNext;
+//	p->pNext = pNew;
 //	return;
 //}
