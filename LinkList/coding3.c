@@ -1,39 +1,22 @@
-/*2022/9/23练习*/
-# include<stdio.h>
-# include<malloc.h>
-# include<stdlib.h>
+/*2022/9/24练习*/
+#include<stdio.h>
+#include<malloc.h>
 
-# define bool char
-# define true 1
-# define false 0
-# define MAXSIZE 10	/*存储空间初始分配量*/
+#define bool char
+#define true 1
+#define false 0
+#define MAXSIZE 10
 
-typedef int ElemType;	/**/
+typedef int ElemType;
 typedef struct {
-	ElemType data[MAXSIZE];	/* 数组存储数据元素，最大值为MAXSIZE */
-	int length;	/*线性表当前长度*/
+	ElemType data[MAXSIZE];
+	int length;
 }SqList;
 
 void InitList(SqList* L);
-bool ListEmpty(SqList L);
 bool ListInsert(SqList* L, int i, ElemType e);
-bool ListDelete(SqList* L, int i, ElemType* e);
-void ListTraverse(SqList* L);
 
 int main() {
-	SqList L;
-	int e;
-	InitList(&L);
-	/*for (int k = 0; k < 5; k++) {
-		ListInsert(&L, k + 1, k + 1);
-	}*/
-	ListInsert(&L, 1, 1);
-	ListInsert(&L, 2, 2);
-	ListInsert(&L, 2, 88);
-	ListDelete(&L, 2, &e);
-	ListTraverse(&L);
-	// if (ListEmpty(L))
-	//	printf("链表为空！！！\n");
 
 	return 0;
 }
@@ -42,61 +25,108 @@ void InitList(SqList* L) {
 	L->length = 0;
 	return;
 }
-bool ListEmpty(SqList L) {
-	if (L.length == 0) {
-		return true;
-	}
-	else {
-		return false;
-	}
-}
 bool ListInsert(SqList* L, int i, ElemType e) {
-	int k;
-	/* 1. 如果插入位置不合理， 则抛出异常 */
-	if (i < 1 || i > L->length + 1) {
-		return false;
-	}
-	/* 2. 如果线性表长度大于等于数组长度，则抛出异常或动态增加容量 */
-	if (L->length >= MAXSIZE) {
-		return false;
-	}
-	/* 3. 从最后一个元素开始向前遍历到第i个位置，分别将它们都向后移动一个位置*/
-	// k = 1 i = 2
-	for (k = L->length - 1; k >= i - 1; k--) {
-		L->data[k + 1] = L->data[k];
-	}
-	/* 4. 将插入元素填入位置i处 */
-	L->data[i - 1] = e;
-	/* 5. 表长加1 */
-	L->length++;
-	return;
+	/* 1. 如果插入位置不合理，则抛出异常 */
 }
-void ListTraverse(SqList* L) {
-	int k;
-	for (k = 0; k < L->length; k++) {
-		printf("%d\t", L->data[k]);
-	}
-	printf("\n");
-	return;
-}
-bool ListDelete(SqList* L, int i, ElemType* e) {
-	/* 1. 如果删除位置不合理，则抛出异常 */
-	if (i < 1 || i > L->length) {
-		return false;
-	}
-	/* 2. 如果线性表为空，则抛出异常 */
-	if (ListEmpty(*L)) {
-		return false;
-	}
-	/* 3. 将要删除元素填入e */
-	*e = L->data[i - 1];
-	/* 4. 从删除元素位置开始向后遍历到最后一个元素的位置，分别将它们都向前移动一个位置*/
-	for (int k = i - 1; k < L->length; k++) {
-		L->data[k] = L->data[k + 1];
-	}
-	/* 5. 表长减1 */
-	L->length--;
-}
+/*2022/9/23练习*/
+//# include<stdio.h>
+//# include<malloc.h>
+//# include<stdlib.h>
+//
+//# define bool char
+//# define true 1
+//# define false 0
+//# define MAXSIZE 10	/*存储空间初始分配量*/
+//
+//typedef int ElemType;	/**/
+//typedef struct {
+//	ElemType data[MAXSIZE];	/* 数组存储数据元素，最大值为MAXSIZE */
+//	int length;	/*线性表当前长度*/
+//}SqList;
+//
+//void InitList(SqList* L);
+//bool ListEmpty(SqList L);
+//bool ListInsert(SqList* L, int i, ElemType e);
+//bool ListDelete(SqList* L, int i, ElemType* e);
+//void ListTraverse(SqList* L);
+//
+//int main() {
+//	SqList L;
+//	int e;
+//	InitList(&L);
+//	/*for (int k = 0; k < 5; k++) {
+//		ListInsert(&L, k + 1, k + 1);
+//	}*/
+//	ListInsert(&L, 1, 1);
+//	ListInsert(&L, 2, 2);
+//	ListInsert(&L, 2, 88);
+//	ListDelete(&L, 2, &e);
+//	ListTraverse(&L);
+//	// if (ListEmpty(L))
+//	//	printf("链表为空！！！\n");
+//
+//	return 0;
+//}
+//
+//void InitList(SqList* L) {
+//	L->length = 0;
+//	return;
+//}
+//bool ListEmpty(SqList L) {
+//	if (L.length == 0) {
+//		return true;
+//	}
+//	else {
+//		return false;
+//	}
+//}
+//bool ListInsert(SqList* L, int i, ElemType e) {
+//	int k;
+//	/* 1. 如果插入位置不合理， 则抛出异常 */
+//	if (i < 1 || i > L->length + 1) {
+//		return false;
+//	}
+//	/* 2. 如果线性表长度大于等于数组长度，则抛出异常或动态增加容量 */
+//	if (L->length >= MAXSIZE) {
+//		return false;
+//	}
+//	/* 3. 从最后一个元素开始向前遍历到第i个位置，分别将它们都向后移动一个位置*/
+//	// k = 1 i = 2
+//	for (k = L->length - 1; k >= i - 1; k--) {
+//		L->data[k + 1] = L->data[k];
+//	}
+//	/* 4. 将插入元素填入位置i处 */
+//	L->data[i - 1] = e;
+//	/* 5. 表长加1 */
+//	L->length++;
+//	return;
+//}
+//void ListTraverse(SqList* L) {
+//	int k;
+//	for (k = 0; k < L->length; k++) {
+//		printf("%d\t", L->data[k]);
+//	}
+//	printf("\n");
+//	return;
+//}
+//bool ListDelete(SqList* L, int i, ElemType* e) {
+//	/* 1. 如果删除位置不合理，则抛出异常 */
+//	if (i < 1 || i > L->length) {
+//		return false;
+//	}
+//	/* 2. 如果线性表为空，则抛出异常 */
+//	if (ListEmpty(*L)) {
+//		return false;
+//	}
+//	/* 3. 将要删除元素填入e */
+//	*e = L->data[i - 1];
+//	/* 4. 从删除元素位置开始向后遍历到最后一个元素的位置，分别将它们都向前移动一个位置*/
+//	for (int k = i - 1; k < L->length; k++) {
+//		L->data[k] = L->data[k + 1];
+//	}
+//	/* 5. 表长减1 */
+//	L->length--;
+//}
 
 /*2022/9/21练习*/
 //# include<stdio.h>
