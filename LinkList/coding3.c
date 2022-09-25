@@ -1,33 +1,55 @@
+/*2022/9/25练习*/
+//#include<stdio.h>
+//#include<stdlib.h>
+//#include<time.h>
+//#include<assert.h>
+//#include<Windows.h>
+//
+//int main(int argc, char* argv[]) {
+//	if (argc != 2) {
+//		fprintf(stdout, "usage: cpu<string>\n");
+//	}
+//	/*stderr：输出到屏幕，stdout：输出到磁盘文件*/
+//
+//	char* str = argv[1];
+//	while (1) {
+//		Sleep(1);
+//		printf("%s\n", str);
+//	}
+//	return 0;
+//}
+
+
 /*2022/9/24练习*/
-#include<stdio.h>
-#include<malloc.h>
-
-#define bool char
-#define true 1
-#define false 0
-#define MAXSIZE 10
-
-typedef int ElemType;
-typedef struct {
-	ElemType data[MAXSIZE];
-	int length;
-}SqList;
-
-void InitList(SqList* L);
-bool ListInsert(SqList* L, int i, ElemType e);
-
-int main() {
-
-	return 0;
-}
-
-void InitList(SqList* L) {
-	L->length = 0;
-	return;
-}
-bool ListInsert(SqList* L, int i, ElemType e) {
-	/* 1. 如果插入位置不合理，则抛出异常 */
-}
+//#include<stdio.h>
+//#include<malloc.h>
+//
+//#define bool char
+//#define true 1
+//#define false 0
+//#define MAXSIZE 10
+//
+//typedef int ElemType;
+//typedef struct {
+//	ElemType data[MAXSIZE];
+//	int length;
+//}SqList;
+//
+//void InitList(SqList* L);
+//bool ListInsert(SqList* L, int i, ElemType e);
+//
+//int main() {
+//
+//	return 0;
+//}
+//
+//void InitList(SqList* L) {
+//	L->length = 0;
+//	return;
+//}
+//bool ListInsert(SqList* L, int i, ElemType e) {
+//	/* 1. 如果插入位置不合理，则抛出异常 */
+//}
 /*2022/9/23练习*/
 //# include<stdio.h>
 //# include<malloc.h>
