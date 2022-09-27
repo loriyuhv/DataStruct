@@ -1,3 +1,70 @@
+/*2022/9/27练习*/
+#include<stdio.h>
+#include<malloc.h>
+#include<stdlib.h>
+
+#define bool char
+#define true 1
+#define false 0
+
+typedef int ElemType;
+/*线性表的单链表存储结构*/
+typedef struct Node {
+	ElemType data;
+	struct Node* next;
+} Node, *LinkList;
+
+void CreateListHead(LinkList* L, int n);
+void ListEmpty(LinkList* L, int n);
+
+int main() {
+
+
+	return 0;
+}
+
+/* 随机产生n个元素的值，建立带表头结点的单链线性表L(头插法) */
+void CreateListHead(LinkList* L, int n) {
+	/////* 1. 声明一指针p和计数器变量i */
+	////LinkList p;
+	////int i;
+	////srand(time(0));		/*初始化随机数种子*/
+	/////* 2. 初始化一空链表 */
+	////*L = (LinkList)malloc(sizeof(Node));
+	/////* 3. 让L的头结点的指针指向NULL，即建立一个带头结点的单链表 */
+	////(*L)->next = NULL;	/*先建立一个带头结点的单链表 */
+	/////* 4. 循环: */
+	////for (i = 0; i < n; i++) {
+	////	/*1) 生成一个新结点赋值给p; */
+	////	p = (LinkList)malloc(sizeof(Node));
+	////	/* 2) 随机生成一个数字赋值给p的数据域p->data; */
+	////	// p->data = rand() % 100 + 1;
+	////	p->data = i + 1;
+	////	/* 3) 将p插入到头结点与前一新结点之间。*/
+	////	p->next = (*L)->next;
+	////	(*L)->next = p;
+	////}
+	/*1. 声明一指针p和计数器变量i */
+	LinkList p;
+	int i;
+	srand(time(0));		/*生成随机数种子*/
+	/*2. 初始化一空链表L*/
+	(*L) = (LinkList)malloc(sizeof(Node));
+	/*3. 让L的头结点的指针指向NULl, 即建立一个带头结点的单链表。*/
+	(*L)->next = NULL;
+	/*4. 循环：*/
+	for (i = 0; i < n; i++) {
+		/*1)生成一新结点赋值给p;*/
+		p = (LinkList)malloc(sizeof(Node));
+		/*2)随机生成一数字赋值给p的数据域p->data;*/
+		// p->data = rand() % 100 + 1;
+		p->data = i + 1;
+		/*3)将p插入到头结点与前一新结点之间。*/
+		p->next = (*L)->next;
+		(*L)->next = p;
+	}
+	return;
+}
 /*2022/9/26练习*/
 //#include<stdio.h>
 //#include<stdlib.h>
