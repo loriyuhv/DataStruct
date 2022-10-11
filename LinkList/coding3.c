@@ -1,48 +1,27 @@
-/*2022/10/10练习*/
-//#include<stdio.h>
-//#include<malloc.h>
-//
-//int main() {
-//	int* a = NULL;
-//	a = (int*)malloc(sizeof(int));
-//	if (!a) {
-//		printf("Hello\n");
-//	}
-//	return 0;
-//}
-
+/*2022/10/11练习*/
 #include<stdio.h>
 #include<malloc.h>
 
 #define bool char
-#define false 0
 #define true 1
+#define false 0
 
 typedef int ElemType;
 typedef struct Node {
 	ElemType data;
 	struct Node* next;
-}*LinkList, Node;
+}Node, *LinkList;
 
 void CreateListHead(LinkList* L, int n);
-void TraverseList(LinkList L);
 void CreateListTail(LinkList* L, int n);
-bool ListInsert(LinkList* L, int i, ElemType e);
-bool ListDelete(LinkList* L, int i, ElemType* e);
+void ListTraverse(LinkList* L);
 
 int main() {
-	LinkList node = NULL, node1 = NULL;
+	LinkList node, node1;
 	CreateListHead(&node, 5);
-	TraverseList(node);
+	ListTraverse(&node);
 	CreateListTail(&node1, 5);
-	TraverseList(node1);
-	// ListInsert(&node1, 1, 88);
-	ElemType e;
-	if (ListDelete(&node1, 6, &e)) {
-		printf("删除%d元素成功!!!\n", e);
-	}
-
-	TraverseList(node1);
+	ListTraverse(&node1);
 	return 0;
 }
 
@@ -59,23 +38,11 @@ void CreateListHead(LinkList* L, int n) {
 	}
 	return;
 }
-void TraverseList(LinkList L) {
-	LinkList p = L->next;
-	if (p == NULL) {
-		printf("链表为空！！！\n");
-	}
-	while (p != NULL) {
-		printf("%d\t", p->data);
-		p = p->next;
-	}
-	printf("\n");
-	return;
-}
 void CreateListTail(LinkList* L, int n) {
 	LinkList p, r;
 	int i;
-	*L = (LinkList)malloc(sizeof(Node));
-	r = *L;
+	(*L) = (LinkList)malloc(sizeof(Node));
+	r = (*L);
 	for (i = 0; i < n; i++) {
 		p = (LinkList)malloc(sizeof(Node));
 		p->data = i + 1;
@@ -83,40 +50,138 @@ void CreateListTail(LinkList* L, int n) {
 		r = p;
 	}
 	r->next = NULL;
+}
+void ListTraverse(LinkList* L) {
+	LinkList p = (*L)->next;
+	if (p == NULL) {
+		printf("链表为空！！！");
+	}
+	while (p) {
+		printf("%d\t", p->data);
+		p = p->next;
+	}
+	printf("\n");
 	return;
 }
-bool ListInsert(LinkList* L, int i, ElemType e) {
-	LinkList p = *L, s;
-	int j = 1;
-	while (j < i && p) {
-		p = p->next;
-		++j;
-	}
-	if (!p || j > i) {
-		return false;
-	}
-	s = (LinkList)malloc(sizeof(Node));
-	s->data = e;
-	s->next = p->next;
-	p->next = s;
-	return true;
-}
-bool ListDelete(LinkList* L, int i, ElemType* e) {
-	LinkList p = *L, q;
-	int j = 1;
-	while (j < i && p->next) {	/*遍历寻找第i-1个结点*/
-		p = p->next;
-		++j;
-	}
-	if (!p->next || j > i) {
-		return false;	/*第i个结点不存在*/
-	}
-	q = p->next;
-	p->next = q->next;	/*将q的后继赋值给p的后继*/
-	*e = q->data;		/*将q结点中的数据给e*/
-	free(q);			/*让系统回收此结点，释放内存*/
-	return true;
-}
+/*2022/10/10练习*/
+//#include<stdio.h>
+//#include<malloc.h>
+//
+//int main() {
+//	int* a = NULL;
+//	a = (int*)malloc(sizeof(int));
+//	if (!a) {
+//		printf("Hello\n");
+//	}
+//	return 0;
+//}
+
+//#include<stdio.h>
+//#include<malloc.h>
+//
+//#define bool char
+//#define false 0
+//#define true 1
+//
+//typedef int ElemType;
+//typedef struct Node {
+//	ElemType data;
+//	struct Node* next;
+//}*LinkList, Node;
+//
+//void CreateListHead(LinkList* L, int n);
+//void TraverseList(LinkList L);
+//void CreateListTail(LinkList* L, int n);
+//bool ListInsert(LinkList* L, int i, ElemType e);
+//bool ListDelete(LinkList* L, int i, ElemType* e);
+//
+//int main() {
+//	LinkList node = NULL, node1 = NULL;
+//	CreateListHead(&node, 5);
+//	TraverseList(node);
+//	CreateListTail(&node1, 5);
+//	TraverseList(node1);
+//	// ListInsert(&node1, 1, 88);
+//	ElemType e;
+//	if (ListDelete(&node1, 6, &e)) {
+//		printf("删除%d元素成功!!!\n", e);
+//	}
+//
+//	TraverseList(node1);
+//	return 0;
+//}
+//
+//void CreateListHead(LinkList* L, int n) {
+//	LinkList p;
+//	int i;
+//	(*L) = (LinkList)malloc(sizeof(Node));
+//	(*L)->next = NULL;
+//	for (i = 0; i < n; i++) {
+//		p = (LinkList)malloc(sizeof(Node));
+//		p->data = i + 1;
+//		p->next = (*L)->next;
+//		(*L)->next = p;
+//	}
+//	return;
+//}
+//void TraverseList(LinkList L) {
+//	LinkList p = L->next;
+//	if (p == NULL) {
+//		printf("链表为空！！！\n");
+//	}
+//	while (p != NULL) {
+//		printf("%d\t", p->data);
+//		p = p->next;
+//	}
+//	printf("\n");
+//	return;
+//}
+//void CreateListTail(LinkList* L, int n) {
+//	LinkList p, r;
+//	int i;
+//	*L = (LinkList)malloc(sizeof(Node));
+//	r = *L;
+//	for (i = 0; i < n; i++) {
+//		p = (LinkList)malloc(sizeof(Node));
+//		p->data = i + 1;
+//		r->next = p;
+//		r = p;
+//	}
+//	r->next = NULL;
+//	return;
+//}
+//bool ListInsert(LinkList* L, int i, ElemType e) {
+//	LinkList p = *L, s;
+//	int j = 1;
+//	while (j < i && p) {
+//		p = p->next;
+//		++j;
+//	}
+//	if (!p || j > i) {
+//		return false;
+//	}
+//	s = (LinkList)malloc(sizeof(Node));
+//	s->data = e;
+//	s->next = p->next;
+//	p->next = s;
+//	return true;
+//}
+//bool ListDelete(LinkList* L, int i, ElemType* e) {
+//	LinkList p = *L, q;
+//	int j = 1;
+//	while (j < i && p->next) {	/*遍历寻找第i-1个结点*/
+//		p = p->next;
+//		++j;
+//	}
+//	if (!p->next || j > i) {
+//		return false;	/*第i个结点不存在*/
+//	}
+//	q = p->next;
+//	p->next = q->next;	/*将q的后继赋值给p的后继*/
+//	*e = q->data;		/*将q结点中的数据给e*/
+//	free(q);			/*让系统回收此结点，释放内存*/
+//	return true;
+//}
 /*2022/10/9练习*/
 //#include<stdio.h>
 //#include<malloc.h>
