@@ -1,48 +1,32 @@
-/*2022/10/11Á·Ï°*/
+/*2022/10/12Á·Ï°*/
 #include<stdio.h>
 #include<malloc.h>
 
 #define bool char
-#define true 1
 #define false 0
+#define true 1
 
-typedef int ElemType;
 typedef struct Node {
-	ElemType data;
+	int data;
 	struct Node* next;
 }Node, *LinkList;
 
-void CreateListHead(LinkList* L, int n);
 void CreateListTail(LinkList* L, int n);
 void ListTraverse(LinkList* L);
-
+bool ListInsert(LinkList* L, int i, int e);
 int main() {
-	LinkList node, node1;
-	CreateListHead(&node, 5);
+	LinkList node;
+	CreateListTail(&node, 5);
 	ListTraverse(&node);
-	CreateListTail(&node1, 5);
-	ListTraverse(&node1);
+	ListInsert(&node, 2, 88);
+	ListTraverse(&node);
 	return 0;
-}
-
-void CreateListHead(LinkList* L, int n) {
-	LinkList p;
-	int i;
-	(*L) = (LinkList)malloc(sizeof(Node));
-	(*L)->next = NULL;
-	for (i = 0; i < n; i++) {
-		p = (LinkList)malloc(sizeof(Node));
-		p->data = i + 1;
-		p->next = (*L)->next;
-		(*L)->next = p;
-	}
-	return;
 }
 void CreateListTail(LinkList* L, int n) {
 	LinkList p, r;
 	int i;
-	(*L) = (LinkList)malloc(sizeof(Node));
-	r = (*L);
+	*L = (LinkList)malloc(sizeof(Node));
+	r = *L;
 	for (i = 0; i < n; i++) {
 		p = (LinkList)malloc(sizeof(Node));
 		p->data = i + 1;
@@ -50,10 +34,11 @@ void CreateListTail(LinkList* L, int n) {
 		r = p;
 	}
 	r->next = NULL;
+	return;
 }
 void ListTraverse(LinkList* L) {
 	LinkList p = (*L)->next;
-	if (p == NULL) {
+	if (!p) {
 		printf("Á´±íÎª¿Õ£¡£¡£¡");
 	}
 	while (p) {
@@ -63,6 +48,87 @@ void ListTraverse(LinkList* L) {
 	printf("\n");
 	return;
 }
+bool ListInsert(LinkList* L, int i, int e) {
+	LinkList p = *L, s;
+	int j = 1;
+	while (j < i && p) {
+		p = p->next;
+		++j;
+	}
+	if (!p || j > i) {
+		return false;
+	}
+	s = (LinkList)malloc(sizeof(Node));
+	s->data = e;
+	s->next = p->next;
+	p->next = s;
+	return true;
+}
+/*2022/10/11Á·Ï°*/
+//#include<stdio.h>
+//#include<malloc.h>
+//
+//#define bool char
+//#define true 1
+//#define false 0
+//
+//typedef int ElemType;
+//typedef struct Node {
+//	ElemType data;
+//	struct Node* next;
+//}Node, *LinkList;
+//
+//void CreateListHead(LinkList* L, int n);
+//void CreateListTail(LinkList* L, int n);
+//void ListTraverse(LinkList* L);
+//
+//int main() {
+//	LinkList node, node1;
+//	CreateListHead(&node, 5);
+//	ListTraverse(&node);
+//	CreateListTail(&node1, 5);
+//	ListTraverse(&node1);
+//	return 0;
+//}
+//
+//void CreateListHead(LinkList* L, int n) {
+//	LinkList p;
+//	int i;
+//	(*L) = (LinkList)malloc(sizeof(Node));
+//	(*L)->next = NULL;
+//	for (i = 0; i < n; i++) {
+//		p = (LinkList)malloc(sizeof(Node));
+//		p->data = i + 1;
+//		p->next = (*L)->next;
+//		(*L)->next = p;
+//	}
+//	return;
+//}
+//void CreateListTail(LinkList* L, int n) {
+//	LinkList p, r;
+//	int i;
+//	(*L) = (LinkList)malloc(sizeof(Node));
+//	r = (*L);
+//	for (i = 0; i < n; i++) {
+//		p = (LinkList)malloc(sizeof(Node));
+//		p->data = i + 1;
+//		r->next = p;
+//		r = p;
+//	}
+//	r->next = NULL;
+//}
+//void ListTraverse(LinkList* L) {
+//	LinkList p = (*L)->next;
+//	if (p == NULL) {
+//		printf("Á´±íÎª¿Õ£¡£¡£¡");
+//	}
+//	while (p) {
+//		printf("%d\t", p->data);
+//		p = p->next;
+//	}
+//	printf("\n");
+//	return;
+//}
 /*2022/10/10Á·Ï°*/
 //#include<stdio.h>
 //#include<malloc.h>
