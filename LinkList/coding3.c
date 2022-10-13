@@ -1,69 +1,250 @@
-/*2022/10/12Á·Ï°*/
+/*2022/10/13Á·Ï°*/
+//Ë³Ðò´æ´¢
 #include<stdio.h>
 #include<malloc.h>
 
 #define bool char
-#define false 0
 #define true 1
+#define false 0
+#define MAXSIZE 10
 
-typedef struct Node {
-	int data;
-	struct Node* next;
-}Node, *LinkList;
+typedef int ElemType;
+typedef struct {
+	ElemType data[MAXSIZE];
+	int length;
+}SqList;
 
-void CreateListTail(LinkList* L, int n);
-void ListTraverse(LinkList* L);
-bool ListInsert(LinkList* L, int i, int e);
+void InitList(SqList *L);
+bool ListInsert(SqList* L, int i, ElemType e);
+bool ListDelete(SqList* L, int i, ElemType* e);
+void ListTraverse(SqList* L);
+
+
 int main() {
-	LinkList node;
-	CreateListTail(&node, 5);
-	ListTraverse(&node);
-	ListInsert(&node, 2, 88);
+	SqList node1, node;
+	InitList(&node);
+	for (int i = 1; i <= 3; i++) {
+		ListInsert(&node, i, i);
+	}
+	ListInsert(&node, 5, 88);
+	ElemType e = 0;
+	ListDelete(&node, 1, &e);
+	printf("%d\n", e);
 	ListTraverse(&node);
 	return 0;
 }
-void CreateListTail(LinkList* L, int n) {
-	LinkList p, r;
-	int i;
-	*L = (LinkList)malloc(sizeof(Node));
-	r = *L;
-	for (i = 0; i < n; i++) {
-		p = (LinkList)malloc(sizeof(Node));
-		p->data = i + 1;
-		r->next = p;
-		r = p;
-	}
-	r->next = NULL;
-	return;
+
+void InitList(SqList* L) {
+	L->length = 0;
 }
-void ListTraverse(LinkList* L) {
-	LinkList p = (*L)->next;
-	if (!p) {
-		printf("Á´±íÎª¿Õ£¡£¡£¡");
+bool ListInsert(SqList* L, int i, ElemType e) {
+	int j;
+	if (i > L->length + 1 || i < 1)
+		return false;
+	if (L->length == MAXSIZE)
+		return false;
+	// 1 2 3 2 88
+	for (j = L->length - 1; j >= i; j--) {
+		L->data[j + 1] = L->data[j];
 	}
-	while (p) {
-		printf("%d\t", p->data);
-		p = p->next;
+	L->data[i - 1] = e;
+	L->length++;
+	return true;
+}
+bool ListDelete(SqList* L, int i, ElemType* e) {
+	if (i < 1 || i > L->length)
+		return false;
+	if (!L->length)
+		return false;
+	*e = L->data[i - 1];
+	for (int j = i - 1; j < L->length - 1; j++) {
+		L->data[j] = L->data[j + 1];
+	}
+	L->length--;
+	return true;
+}
+void ListTraverse(SqList* L) {
+	if (!L->length)
+		printf("Êý×éÎª¿Õ£¡£¡£¡\n");
+	int i;
+	for (i = 0; i < L->length; i++) {
+		printf("%d\t", L->data[i]);
 	}
 	printf("\n");
 	return;
 }
-bool ListInsert(LinkList* L, int i, int e) {
-	LinkList p = *L, s;
-	int j = 1;
-	while (j < i && p) {
-		p = p->next;
-		++j;
-	}
-	if (!p || j > i) {
-		return false;
-	}
-	s = (LinkList)malloc(sizeof(Node));
-	s->data = e;
-	s->next = p->next;
-	p->next = s;
-	return true;
-}
+
+//#include<stdio.h>
+//#include<malloc.h>
+//
+//#define bool char
+//#define true 1
+//#define false 0
+//
+//typedef int ElemType;
+//typedef struct Node {
+//	ElemType data;
+//	struct Node* next;
+//}Node, *LinkList;
+//
+//void CreateListHead(LinkList* L, int n);
+//void CreateListTail(LinkList* L, int n);
+//bool ListTraverse(LinkList* L);
+//bool ListInsert(LinkList* L, int i, ElemType e);
+//bool ListDelete(LinkList* L, int i, ElemType* e);
+//
+//int main() {
+//	LinkList node;
+//	CreateListTail(&node, 3);
+//	ListTraverse(&node);
+//	// ListInsert(&node, 2, 88);
+//	ElemType e;
+//	if (ListDelete(&node, 4, &e))
+//		printf("³É¹¦£¬É¾³ýÁËÔªËØ%d\n", e);
+//	ListTraverse(&node);
+//	return 0;
+//}
+//
+//void CreateListHead(LinkList* L, int n) {
+//	LinkList p;
+//	int i;
+//	*L = (LinkList)malloc(sizeof(Node));
+//	(*L)->next = NULL;
+//	for (i = 0; i < n; i++) {
+//		p = (LinkList)malloc(sizeof(Node));
+//		p->data = i + 1;
+//		p->next = (*L)->next;
+//		(*L)->next = p;
+//	}
+//	return;
+//}
+//void CreateListTail(LinkList* L, int n) {
+//	LinkList p, r;
+//	int i;
+//	(*L) = (LinkList)malloc(sizeof(Node));
+//	r = *L;
+//	for (i = 0; i < n; i++) {
+//		p = (LinkList)malloc(sizeof(Node));
+//		p->data = i + 1;
+//		r->next = p;
+//		r = p;
+//	}
+//	r->next = NULL;
+//	return;
+//}
+//bool ListTraverse(LinkList* L) {
+//	LinkList p = (*L)->next;
+//	if (!p) {
+//		printf("Á´±íÎª¿Õ£¡£¡£¡");
+//		return false;
+//	}
+//	while (p) {
+//		printf("%d\t", p->data);
+//		p = p->next;
+//	}
+//	printf("\n");
+//	return true;
+//}
+//bool ListInsert(LinkList* L, int i, ElemType e) {
+//	LinkList p = (*L), s;
+//	int j = 1;
+//	// 1 2 3 4 5  j:2 p:1 i 2
+//	while (j < i && p) {
+//		p = p->next;
+//		++j;
+//	}
+//	if (!p || j > i) {
+//		return false;
+//	}
+//	s = (LinkList)malloc(sizeof(Node));
+//	s->data = e;
+//	s->next = p->next;
+//	p->next = s;
+//	return;
+//}
+//bool ListDelete(LinkList* L, int i, ElemType* e) {
+//	LinkList p = *L, q;
+//	int j = 1;
+//	// 1 2 3 j:4 p: 3 i:4  q
+//	while (j < i && p->next) {
+//		p = p->next;
+//		++j;
+//	}
+//	if (!p->next || j > i) {
+//		return false;
+//	}
+//	q = p->next;
+//	*e = q->data;
+//	p->next = q->next;
+//	free(q);
+//	return true;
+//}
+/*2022/10/12Á·Ï°*/
+//#include<stdio.h>
+//#include<malloc.h>
+//
+//#define bool char
+//#define false 0
+//#define true 1
+//
+//typedef struct Node {
+//	int data;
+//	struct Node* next;
+//}Node, *LinkList;
+//
+//void CreateListTail(LinkList* L, int n);
+//void ListTraverse(LinkList* L);
+//bool ListInsert(LinkList* L, int i, int e);
+//int main() {
+//	LinkList node;
+//	CreateListTail(&node, 5);
+//	ListTraverse(&node);
+//	ListInsert(&node, 2, 88);
+//	ListTraverse(&node);
+//	return 0;
+//}
+//void CreateListTail(LinkList* L, int n) {
+//	LinkList p, r;
+//	int i;
+//	*L = (LinkList)malloc(sizeof(Node));
+//	r = *L;
+//	for (i = 0; i < n; i++) {
+//		p = (LinkList)malloc(sizeof(Node));
+//		p->data = i + 1;
+//		r->next = p;
+//		r = p;
+//	}
+//	r->next = NULL;
+//	return;
+//}
+//void ListTraverse(LinkList* L) {
+//	LinkList p = (*L)->next;
+//	if (!p) {
+//		printf("Á´±íÎª¿Õ£¡£¡£¡");
+//	}
+//	while (p) {
+//		printf("%d\t", p->data);
+//		p = p->next;
+//	}
+//	printf("\n");
+//	return;
+//}
+//bool ListInsert(LinkList* L, int i, int e) {
+//	LinkList p = *L, s;
+//	int j = 1;
+//	while (j < i && p) {
+//		p = p->next;
+//		++j;
+//	}
+//	if (!p || j > i) {
+//		return false;
+//	}
+//	s = (LinkList)malloc(sizeof(Node));
+//	s->data = e;
+//	s->next = p->next;
+//	p->next = s;
+//	return true;
+//}
 /*2022/10/11Á·Ï°*/
 //#include<stdio.h>
 //#include<malloc.h>
@@ -141,7 +322,6 @@ bool ListInsert(LinkList* L, int i, int e) {
 //	}
 //	return 0;
 //}
-
 //#include<stdio.h>
 //#include<malloc.h>
 //
