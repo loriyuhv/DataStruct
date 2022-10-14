@@ -1,5 +1,4 @@
-/*2022/10/13Á·Ï°*/
-//Ë³Ðò´æ´¢
+/*2022/10/14Á·Ï°*/
 #include<stdio.h>
 #include<malloc.h>
 
@@ -8,72 +7,88 @@
 #define false 0
 #define MAXSIZE 10
 
-typedef int ElemType;
+typedef int SElemType;
 typedef struct {
-	ElemType data[MAXSIZE];
-	int length;
-}SqList;
-
-void InitList(SqList *L);
-bool ListInsert(SqList* L, int i, ElemType e);
-bool ListDelete(SqList* L, int i, ElemType* e);
-void ListTraverse(SqList* L);
+	SElemType data[MAXSIZE];
+	int top;	/*ÓÃÓÚÕ»¶¥Ö¸Õë*/
+}SqStack;
 
 
-int main() {
-	SqList node1, node;
-	InitList(&node);
-	for (int i = 1; i <= 3; i++) {
-		ListInsert(&node, i, i);
-	}
-	ListInsert(&node, 5, 88);
-	ElemType e = 0;
-	ListDelete(&node, 1, &e);
-	printf("%d\n", e);
-	ListTraverse(&node);
-	return 0;
-}
-
-void InitList(SqList* L) {
-	L->length = 0;
-}
-bool ListInsert(SqList* L, int i, ElemType e) {
-	int j;
-	if (i > L->length + 1 || i < 1)
-		return false;
-	if (L->length == MAXSIZE)
-		return false;
-	// 1 2 3 2 88
-	for (j = L->length - 1; j >= i; j--) {
-		L->data[j + 1] = L->data[j];
-	}
-	L->data[i - 1] = e;
-	L->length++;
-	return true;
-}
-bool ListDelete(SqList* L, int i, ElemType* e) {
-	if (i < 1 || i > L->length)
-		return false;
-	if (!L->length)
-		return false;
-	*e = L->data[i - 1];
-	for (int j = i - 1; j < L->length - 1; j++) {
-		L->data[j] = L->data[j + 1];
-	}
-	L->length--;
-	return true;
-}
-void ListTraverse(SqList* L) {
-	if (!L->length)
-		printf("Êý×éÎª¿Õ£¡£¡£¡\n");
-	int i;
-	for (i = 0; i < L->length; i++) {
-		printf("%d\t", L->data[i]);
-	}
-	printf("\n");
-	return;
-}
-
+/*2022/10/13Á·Ï°*/
+//Ë³Ðò´æ´¢
+//#include<stdio.h>
+//#include<malloc.h>
+//
+//#define bool char
+//#define true 1
+//#define false 0
+//#define MAXSIZE 10
+//
+//typedef int ElemType;
+//typedef struct {
+//	ElemType data[MAXSIZE];
+//	int length;
+//}SqList;
+//
+//void InitList(SqList *L);
+//bool ListInsert(SqList* L, int i, ElemType e);
+//bool ListDelete(SqList* L, int i, ElemType* e);
+//void ListTraverse(SqList* L);
+//
+//
+//int main() {
+//	SqList node1, node;
+//	InitList(&node);
+//	for (int i = 1; i <= 3; i++) {
+//		ListInsert(&node, i, i);
+//	}
+//	ListInsert(&node, 5, 88);
+//	ElemType e = 0;
+//	ListDelete(&node, 1, &e);
+//	printf("%d\n", e);
+//	ListTraverse(&node);
+//	return 0;
+//}
+//
+//void InitList(SqList* L) {
+//	L->length = 0;
+//}
+//bool ListInsert(SqList* L, int i, ElemType e) {
+//	int j;
+//	if (i > L->length + 1 || i < 1)
+//		return false;
+//	if (L->length == MAXSIZE)
+//		return false;
+//	// 1 2 3 2 88
+//	for (j = L->length - 1; j >= i; j--) {
+//		L->data[j + 1] = L->data[j];
+//	}
+//	L->data[i - 1] = e;
+//	L->length++;
+//	return true;
+//}
+//bool ListDelete(SqList* L, int i, ElemType* e) {
+//	if (i < 1 || i > L->length)
+//		return false;
+//	if (!L->length)
+//		return false;
+//	*e = L->data[i - 1];
+//	for (int j = i - 1; j < L->length - 1; j++) {
+//		L->data[j] = L->data[j + 1];
+//	}
+//	L->length--;
+//	return true;
+//}
+//void ListTraverse(SqList* L) {
+//	if (!L->length)
+//		printf("Êý×éÎª¿Õ£¡£¡£¡\n");
+//	int i;
+//	for (i = 0; i < L->length; i++) {
+//		printf("%d\t", L->data[i]);
+//	}
+//	printf("\n");
+//	return;
+//}
 //#include<stdio.h>
 //#include<malloc.h>
 //
