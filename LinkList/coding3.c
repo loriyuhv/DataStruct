@@ -1,18 +1,154 @@
-/*2022/10/14练习*/
+/*2022/10/19练习*/
+/*实现一个去重操作*/
 #include<stdio.h>
-#include<malloc.h>
 
+#define MAXSIZE 20
 #define bool char
 #define true 1
 #define false 0
-#define MAXSIZE 10
 
-typedef int SElemType;
+typedef int ElemType;
 typedef struct {
-	SElemType data[MAXSIZE];
-	int top;	/*用于栈顶指针*/
-}SqStack;
+	ElemType data[MAXSIZE];
+	int length;
+}SqList;
 
+void InitList(SqList* L);
+bool ListEmpty(SqList* L);
+bool ListAdd(SqList* L, ElemType e);
+bool TraverseList(SqList* L);
+bool ListInsert(SqList* L, int i, ElemType e);
+void unionL(SqList* La, SqList* Lb);
+void GetElem(SqList* L, int p, ElemType* e);
+bool LocateElem(SqList* L, ElemType e);
+
+int main() {
+	SqList La, Lb;
+	InitList(&La);
+	InitList(&Lb);
+	/*La: 8, 9, 10 */
+	ListAdd(&La, 8);
+	ListAdd(&La, 10);
+	ListAdd(&La, 8);
+	ListAdd(&La, 7);
+	ListAdd(&La, 5);
+	ListAdd(&La, 9);
+	ListAdd(&La, 10);
+	ListAdd(&La, 1);
+	ListAdd(&La, 2);
+	ListAdd(&La, 8);
+	/*Lb: 1 2 3 4 5 6 7*/
+	ListAdd(&Lb, 3);
+	ListAdd(&Lb, 2);
+	ListAdd(&Lb, 3);
+	ListAdd(&Lb, 4);
+	ListAdd(&Lb, 7);
+	ListAdd(&Lb, 6);
+	ListAdd(&Lb, 5);
+	ListAdd(&Lb, 4);
+	ListAdd(&Lb, 2);
+	ListAdd(&Lb, 1);
+	ListAdd(&Lb, 3);
+
+	TraverseList(&Lb);
+	/*ListInsert(&Lb, 13, 88);
+	TraverseList(&Lb);
+	if (ListEmpty(&La))
+		printf("链表为空！！！\n");*/
+	return 0;
+}
+
+void InitList(SqList* L) {
+	L->length = 0;
+	return;
+}
+bool ListEmpty(SqList* L) {
+	if (L->length) {
+		return false;
+	}
+	else {
+		return true;
+	}
+}
+bool ListAdd(SqList* L, ElemType e) {
+	if (L->length == MAXSIZE) {
+		return false;
+	}
+	// printf("%d\n", L->length);
+	L->data[L->length] = e;
+	// printf("%d\n", L->data[L->length]);
+	L->length++;
+	return true;
+}
+bool TraverseList(SqList* L) {
+	if (!L->length) {
+		return false;
+	}
+	else {
+		for (int i = 0; i < L->length; i++) {
+			printf("%d\t", L->data[i]);
+		}
+		printf("\n");
+		return true;
+	}
+}
+bool ListInsert(SqList* L, int p, ElemType e) {
+	if (L->length == MAXSIZE) {
+		return false;
+	}
+	if (p < 1 || p > L->length + 1) {
+		return false;
+	}
+	// 1 2 3 4  2 88
+	for (int i = L->length - 1; i >= p - 1; i--) {
+		L->data[i + 1] = L->data[i];
+	}
+	L->data[p - 1] = e;
+	L->length++;
+	return true;
+}
+void unionL(SqList* La, SqList* Lb) {
+	int La_len, Lb_len, i;
+	SqList Lc;
+	InitList(&Lc);
+	ElemType e;
+	La_len = La->length;
+	Lb_len = Lb->length;
+	for (i = 1; i <= Lb_len; i++) {
+		GetElem(Lb, i, &e);
+		if (!LocateElem(&La, e))
+			ListInsert(&La, ++La_len, e);
+	}
+}
+void GetElem(SqList* L, int p, ElemType* e) {
+	*e = L->data[p - 1];
+	return;
+}
+bool LocateElem(SqList* L, ElemType e) {
+	int i, l = L->length;
+	for (i = 0; i < l; i++) {
+		if (L->data[i] == e) {
+			return true;
+			break;
+		}
+	}
+	return false;
+}
+/*2022/10/14练习*/
+//#include<stdio.h>
+//#include<malloc.h>
+//
+//#define bool char
+//#define true 1
+//#define false 0
+//#define MAXSIZE 10
+//
+//typedef int SElemType;
+//typedef struct {
+//	SElemType data[MAXSIZE];
+//	int top;	/*用于栈顶指针*/
+//}SqStack;
+//
 
 /*2022/10/13练习*/
 //顺序存储
