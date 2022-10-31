@@ -1,3 +1,39 @@
+/* 汉诺塔 */
+#include<stdio.h>
+
+void hanoi(int, char, char);
+
+int main() {
+	char ch1 = 'A';
+	char ch2 = 'B';
+	char ch3 = 'C';
+	int n;
+	printf("请输入要盘子的个数：");
+	scanf_s("%d", &n);
+
+	hanoi(n, 'A', 'B', 'C');
+
+	return 0;
+}
+void hanoi(int n, char A, char B, char C) {
+	/*
+	// 如果是一个盘子
+		// 直接将X柱子上的盘子从A移到C
+	// 否则
+		// 先将A柱子上的n-1个盘子借助C移到B
+		// 直接将A柱子上的盘子从A移到B
+		// 最后将B柱子上的n-1个盘子借助A移动到C
+	*/
+	if (n == 1) {
+		printf("将编号为%d的盘子直接从%c柱子移到%c柱子\n", n, A, C);
+	}
+	else {
+		hanoi(n - 1, A, C, B);
+		printf("将编号为%d的盘子直接从%c柱子移到%c柱子\n", n, A, C);
+		hanoi(n - 1, B, A, C);
+	}
+}
+
 /* A函数调用B函数举例 */
 //#include<stdio.h>
 //

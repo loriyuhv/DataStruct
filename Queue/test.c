@@ -1,13 +1,25 @@
+/* 当在一个函数的运行期间调用另一个函数 */
+//#include<stdio.h>
+//
+//void func(char name) {
+//	printf("Hello %c!!!\n", name);
+//}
+//
+//int main() {
+//	func('A');
+//	printf("Hello world\n");
+//	return 0;
+//}
 /* 模拟计算机出栈压栈 */
-#include<stdio.h>
-void f() {
-	printf("from f\n");
-}
-int main() {
-	printf("%p", f);
-	
-	return 0;
-}
+//#include<stdio.h>
+//void f() {
+//	printf("from f\n");
+//}
+//int main() {
+//	printf("%p", f);
+//	
+//	return 0;
+//}
 /*测试为什么长度为5的数组下标不能为5*/
 //#include<stdio.h>
 //#include<malloc.h>
