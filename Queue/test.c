@@ -1,3 +1,25 @@
+#include<stdio.h>
+
+void hanoi(int n, char A, char B, char C) {
+	if (n == 1) {
+		printf("将编号为%d的盘子直接从%c柱子移到%c柱子\n", n, A, C);
+	}
+	else {
+		//2 A C B 1 A B C
+		hanoi(n - 1, A, C, B);
+		printf("将编号为%d的盘子直接从%c柱子移到%c柱子\n", n, A, C);
+		//B, A, C1 C A B
+		hanoi(n - 1, B, A, C);
+		//3 A, B, C
+		// 2: B, A, C
+		// 1: B, C, A
+	}
+}
+int main() {
+
+	hanoi(3, 'A', 'B', 'C');
+	return 0;
+}
 /* 当在一个函数的运行期间调用另一个函数 */
 //#include<stdio.h>
 //
