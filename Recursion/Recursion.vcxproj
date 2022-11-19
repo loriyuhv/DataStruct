@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{7189d3c2-0eeb-4ddb-8a22-0ba6fd5e92ef}</ProjectGuid>
-    <RootNamespace>Stack</RootNamespace>
+    <ProjectGuid>{8823102e-a2b9-4da5-abab-ff43d2219988}</ProjectGuid>
+    <RootNamespace>Recursion</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -127,10 +127,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="coding.c" />
-    <ClCompile Include="stack.c" />
-    <ClCompile Include="test.c" />
-    <ClCompile Include="test02.cpp" />
+    <ClCompile Include="study.c" />
+    <ClCompile Include="test01.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

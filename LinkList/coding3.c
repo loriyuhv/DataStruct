@@ -1,139 +1,526 @@
+
+
+#include<stdio.h>
+#include<string.h>
+int maxn = 1005, INF = 999999999;
+int G[1005][1005], dp[1005];
+int d(int);
+int T, i, j, n, m, a, b, c;
+int main() {
+    for (scanf("%d", &T); T--;) {
+        for (i = 0; i < maxn; i++)
+            for (j = 0; j < maxn; j++) G[i][j] = INF;
+        for (i = 0; i < maxn; i++) dp[i] = INF;
+        for (scanf("%d%d", &n, &m), i = 0; i < m; i++) {
+            scanf("%d%d%d", &a, &b, &c);
+            G[a][b] = c;
+        }
+        int Max = -INF;
+        for (i = 0; i < n; i++) Max = max(Max, d(i));
+        printf("%d\n", Max);
+    }
+}
+int d(int x) {
+    if (dp[x] != INF) return dp[x];
+    dp[x] = 0;
+    for (int i = 0; i < n; i++)
+        if (G[x][i] != INF)
+            dp[x] = max(dp[x], d(i) + G[x][i]);
+    return dp[x];
+}
+/*
+
+#include<stdio.h>
+#include<iostream>
+#include<algorithm>
+
+using namespace std;
+
+const int maxn = 10000007;
+
+int t;
+int n;
+unsigned int x, y, z;
+unsigned long long num[maxn];
+
+unsigned long long gcd(unsigned long long a, unsigned long long b)
+{
+    unsigned long long c;
+    c = a % b;
+    while (c)
+    {
+        a = b;
+        b = c;
+        c = a % b;
+    }
+    return b;
+}
+
+unsigned int solve()
+{
+    unsigned int tt;
+    x ^= x << 16;
+    x ^= x >> 5;
+    x ^= x << 1;
+    tt = x;
+    x = y;
+    y = z;
+    z = tt ^ x ^ y;
+    return z;
+}
+
+bool cmp(unsigned long long a, unsigned long long b)
+{
+    return a > b;
+}
+
+int main()
+{
+    scanf("%d", &t);
+    for (int cas = 1; cas <= t; cas++)
+    {
+        scanf("%d%u%u%u", &n, &x, &y, &z);
+        for (int i = 0; i < n; i++)
+        {
+            num[i] = solve();
+        }
+        int k = min(100, n);   ///取前100大
+        nth_element(num, num + k, num + n, cmp);
+        unsigned long long ans;
+        ans = 0;
+        for (int i = 0; i < k; i++)
+        {
+            //            printf("%llu\n" , num[i]);
+            for (int j = i + 1; j < k; j++)
+            {
+                ans = max(ans, num[i] * num[j] / gcd(num[i], num[j]));
+                //                 printf("%d..%d..%llu..%llu..%llu..%llu..\n" , i , j , num[i] , num[j] , num[i]*num[j]/gcd(num[i],num[j]) , ans);
+            }
+        }
+        printf("Case #%d: %llu\n", cas, ans);
+
+    }
+
+
+    return 0;
+}
+*/
+
+/*
+337929
+608269
+1351708
+64488027082
+85984357633
+
+405514
+675854
+1351708
+1384776332
+2769433858
+
+0..1..405514..675854..137034129478..137034129478..
+0..2..405514..1351708..274068258956..274068258956..
+0..3..405514..1384776332..280773094747324..280773094747324..
+0..4..405514..2769433858..561522100746506..561522100746506..
+1..2..675854..1351708..1351708..561522100746506..
+1..3..675854..1384776332..467953311543764..561522100746506..
+1..4..675854..2769433858..935866475332366..935866475332366..
+2..3..1351708..1384776332..467953311543764..935866475332366..
+2..4..1351708..2769433858..1871732950664732..1871732950664732..
+3..4..1384776332..2769433858..1917523229798924428..1917523229798924428..
+*/
+/*2023/3/22复习连续存储数组*/
+//#include<stdio.h>
+//#include<malloc.h>
+//#include<stdlib.h>
+//
+//#define bool char
+//#define true 1
+//#define false 0
+//
+//typedef struct Arr {
+//	int* pBase;
+//	int len;
+//	int cnt;
+//}*pArr, Arr;
+//
+//void init_arr(pArr p, int len);
+//bool append_arr(pArr p, int val);
+//bool insert_arr(pArr p, int pos, int e);
+//bool is_empty(pArr p);
+//bool is_full(pArr p);
+//void show_arr(pArr p);
+//
+//int main() {
+//	Arr arr;
+//	init_arr(&arr, 6);
+//	for (int i = 0; i <= 4; i++) {
+//		append_arr(&arr, i + 1);
+//	}
+//	if (insert_arr(&arr, 6, 6)) {
+//		printf("插入元素%d成功！！！\n", 6);
+//	}
+//	else {
+//		printf("插入元素%d失败！！！\n", 6);
+//	}
+//	
+//	show_arr(&arr);
+//	if (is_empty(&arr)) {
+//		printf("数组为空！！！\n");
+//	}
+//	return 0;
+//}
+//
+//void init_arr(pArr p, int len) {
+//	p->pBase = (pArr)malloc(sizeof(int) * len);
+//	if (NULL == p->pBase) {
+//		printf("动态内存分配失败！！！\n");
+//		exit(-1);
+//	}
+//	p->len = len;
+//	p->cnt = 0;
+//	return;
+//}
+//bool insert_arr(pArr p, int pos, int e) {
+//	int i;
+//	if (is_full(p)) {
+//		return false;
+//	}
+//	if (pos < 1 || pos > p->cnt + 1) {
+//		return false;
+//	}
+//	if (pos != p->cnt + 1) {
+//		for (i = p->cnt - 1; i >= pos - 1; i--) {
+//			p->pBase[i + 1] = p->pBase[i];
+//		}
+//	}
+//	p->pBase[pos - 1] = e;
+//	p->cnt++;
+//	return true;
+//}
+//bool is_empty(pArr p) {
+//	if (p->cnt) {
+//		return false;
+//	}
+//	else {
+//		return true;
+//	}
+//}
+//bool is_full(pArr p) {
+//	if (p->cnt == p->len) {
+//		return true;
+//	}
+//	else {
+//		return false;
+//	}
+//}
+//bool append_arr(pArr p, int val) {
+//	if (is_full(p)) {
+//		printf("数组已满, 插入失败！！！\n");
+//		return false;
+//	}
+//	p->pBase[p->cnt] = val;
+//	p->cnt++;
+//	return true;
+//}
+//void show_arr(pArr p) {
+//	if (is_empty(p)) {
+//		printf("数组为空!!!\n");
+//	}
+//	else {
+//		int i = 0;
+//		printf("数组元素是：");
+//		for (i = 0; i < p->cnt; i++) {
+//			printf("%d\t", p->pBase[i]);
+//		}
+//	}
+//	return;
+//}
+
+
+/*2023/3/15before*/
+//#include<stdio.h>
+//void func(int a[2]);
+//void func2(PNode);
+//
+//typedef struct node {
+//	int m;
+//	int n;
+//}Node, *PNode;
+//
+//int main() {
+//	int a[2] = { 1, 2 };
+//	printf("a[0] = %d, a[1] = %d\n", a[0], a[1]);
+//	func(a);
+//	printf("a[0] = %d, a[1] = %d\n", a[0], a[1]);
+//	Node m;
+//	m.m = 10;
+//	m.n = 20;
+//	printf("m: %d, n: %d\n", m.m, m.n);
+//	func2(&m);
+//	printf("m: %d, n: %d\n", m.m, m.n);
+//
+//	return 0;
+//}
+//
+//void func(int a[2]) {
+//	int t;
+//	t = a[0];
+//	a[0] = a[1];
+//	a[1] = t;
+//	return;
+//}
+//
+//void func2(PNode m) {
+//	int t = 0;
+//	t = m->m;
+//	m->m = m->n;
+//	m->n = t;
+//}
+/*2022/11/19练习*/
+//#include<stdio.h>
+//#include<malloc.h>
+//#include<stdlib.h>
+//
+//#define bool char
+//#define true 1
+//#define false 0
+//
+//typedef struct Arr {
+//	int* pBase;
+//	int len;
+//	int cnt;
+//}*pArr, Arr;
+//
+//void init_arr(pArr p, int length);
+//bool append_arr(pArr p, int val);
+//void show_arr(pArr p);
+//
+//int main() {
+//	Arr arr;
+//	init_arr(&arr, 6);
+//	if (arr.cnt == 0) {
+//		printf("数组为空！！！\n");
+//	}
+//	for (int i = 0; i < 7; i++) {
+//		if (append_arr(&arr, i + 1)) {
+//			printf("添加元素%d成功！！！\n", i + 1);
+//		}
+//		else {
+//			printf("添加元素%d失败！！！\n", i + 1);
+//		}
+//	}
+//	show_arr(&arr);
+//	return 0;
+//}
+//
+//void init_arr(pArr p, int length) {
+//	p->pBase = (pArr)malloc(sizeof(int) * length);
+//	if (NULL == p->pBase) {
+//		printf("动态内存分配失败！！！\n");
+//		exit(-1);
+//	}
+//	p->len = length;
+//	p->cnt = 0;
+//}
+//bool append_arr(pArr p, int val) {
+//	if (p->len > p->cnt) {
+//		p->pBase[p->cnt] = val;
+//		p->cnt++;
+//		return true;
+//	}
+//	else
+//		return false;
+//	
+//}
+//void show_arr(pArr p) {
+//	if (p->cnt == 0) {
+//		printf("数组为空！！！\n");
+//	}
+//	else {
+//		for (int i = 0; i < p->cnt; i++) {
+//			printf("%d\t", p->pBase[i]);
+//		}
+//	}
+//	return;
+//}
+
+/*错误*/
+//#include<stdio.h>
+//#include<stdlib.h>
+//#include<malloc.h>
+//
+//#define bool char
+//#define true 1
+//#define false 0
+//
+//typedef struct Arr {
+//	int* next;
+//	int len;
+//	int cnt;
+//}*PList, List;
+//
+//void init_arr(PList p, int length);
+//
+//int main() {
+//	// PList arr; /*错误地方*/
+//	List arr; /*改正*/
+//	// printf("%p", arr);
+//	init_arr(&arr, 5);
+//	// printf("%p", *arr);
+//	
+//	if (arr.cnt == 0) {
+//		printf("数组为空！！！\n");
+//	}
+//	return 0;
+//}
+//
+//void init_arr(PList p, int length) {
+//	p->next = (int*)malloc(sizeof(int) * length);
+//	if (NULL == p->next) {
+//		printf("动态内存分配失败！！！\n");
+//		exit(-1);
+//	}
+//	p->len = length;
+//	p->cnt = 0;
+//}
 /*2022/10/19练习*/
 /*实现一个去重操作*/
-#include<stdio.h>
-
-#define MAXSIZE 20
-#define bool char
-#define true 1
-#define false 0
-
-typedef int ElemType;
-typedef struct {
-	ElemType data[MAXSIZE];
-	int length;
-}SqList;
-
-void InitList(SqList* L);
-bool ListEmpty(SqList* L);
-bool ListAdd(SqList* L, ElemType e);
-bool TraverseList(SqList* L);
-bool ListInsert(SqList* L, int i, ElemType e);
-void unionL(SqList* La, SqList* Lb);
-void GetElem(SqList* L, int p, ElemType* e);
-bool LocateElem(SqList* L, ElemType e);
-
-int main() {
-	SqList La, Lb;
-	InitList(&La);
-	InitList(&Lb);
-	/*La: 8, 9, 10 */
-	ListAdd(&La, 8);
-	ListAdd(&La, 10);
-	ListAdd(&La, 8);
-	ListAdd(&La, 7);
-	ListAdd(&La, 5);
-	ListAdd(&La, 9);
-	ListAdd(&La, 10);
-	ListAdd(&La, 1);
-	ListAdd(&La, 2);
-	ListAdd(&La, 8);
-	/*Lb: 1 2 3 4 5 6 7*/
-	ListAdd(&Lb, 3);
-	ListAdd(&Lb, 2);
-	ListAdd(&Lb, 3);
-	ListAdd(&Lb, 4);
-	ListAdd(&Lb, 7);
-	ListAdd(&Lb, 6);
-	ListAdd(&Lb, 5);
-	ListAdd(&Lb, 4);
-	ListAdd(&Lb, 2);
-	ListAdd(&Lb, 1);
-	ListAdd(&Lb, 3);
-
-	TraverseList(&Lb);
-	/*ListInsert(&Lb, 13, 88);
-	TraverseList(&Lb);
-	if (ListEmpty(&La))
-		printf("链表为空！！！\n");*/
-	return 0;
-}
-
-void InitList(SqList* L) {
-	L->length = 0;
-	return;
-}
-bool ListEmpty(SqList* L) {
-	if (L->length) {
-		return false;
-	}
-	else {
-		return true;
-	}
-}
-bool ListAdd(SqList* L, ElemType e) {
-	if (L->length == MAXSIZE) {
-		return false;
-	}
-	// printf("%d\n", L->length);
-	L->data[L->length] = e;
-	// printf("%d\n", L->data[L->length]);
-	L->length++;
-	return true;
-}
-bool TraverseList(SqList* L) {
-	if (!L->length) {
-		return false;
-	}
-	else {
-		for (int i = 0; i < L->length; i++) {
-			printf("%d\t", L->data[i]);
-		}
-		printf("\n");
-		return true;
-	}
-}
-bool ListInsert(SqList* L, int p, ElemType e) {
-	if (L->length == MAXSIZE) {
-		return false;
-	}
-	if (p < 1 || p > L->length + 1) {
-		return false;
-	}
-	// 1 2 3 4  2 88
-	for (int i = L->length - 1; i >= p - 1; i--) {
-		L->data[i + 1] = L->data[i];
-	}
-	L->data[p - 1] = e;
-	L->length++;
-	return true;
-}
-void unionL(SqList* La, SqList* Lb) {
-	int La_len, Lb_len, i;
-	SqList Lc;
-	InitList(&Lc);
-	ElemType e;
-	La_len = La->length;
-	Lb_len = Lb->length;
-	for (i = 1; i <= Lb_len; i++) {
-		GetElem(Lb, i, &e);
-		if (!LocateElem(&La, e))
-			ListInsert(&La, ++La_len, e);
-	}
-}
-void GetElem(SqList* L, int p, ElemType* e) {
-	*e = L->data[p - 1];
-	return;
-}
-bool LocateElem(SqList* L, ElemType e) {
-	int i, l = L->length;
-	for (i = 0; i < l; i++) {
-		if (L->data[i] == e) {
-			return true;
-			break;
-		}
-	}
-	return false;
-}
+//#include<stdio.h>
+//
+//#define MAXSIZE 20
+//#define bool char
+//#define true 1
+//#define false 0
+//
+//typedef int ElemType;
+//typedef struct {
+//	ElemType data[MAXSIZE];
+//	int length;
+//}SqList;
+//
+//void InitList(SqList* L);
+//bool ListEmpty(SqList* L);
+//bool ListAdd(SqList* L, ElemType e);
+//bool TraverseList(SqList* L);
+//bool ListInsert(SqList* L, int i, ElemType e);
+//void unionL(SqList* La, SqList* Lb);
+//void GetElem(SqList* L, int p, ElemType* e);
+//bool LocateElem(SqList* L, ElemType e);
+//
+//int main() {
+//	SqList La, Lb;
+//	InitList(&La);
+//	InitList(&Lb);
+//	/*La: 8, 9, 10 */
+//	ListAdd(&La, 8);
+//	ListAdd(&La, 10);
+//	ListAdd(&La, 8);
+//	ListAdd(&La, 7);
+//	ListAdd(&La, 5);
+//	ListAdd(&La, 9);
+//	ListAdd(&La, 10);
+//	ListAdd(&La, 1);
+//	ListAdd(&La, 2);
+//	ListAdd(&La, 8);
+//	/*Lb: 1 2 3 4 5 6 7*/
+//	ListAdd(&Lb, 3);
+//	ListAdd(&Lb, 2);
+//	ListAdd(&Lb, 3);
+//	ListAdd(&Lb, 4);
+//	ListAdd(&Lb, 7);
+//	ListAdd(&Lb, 6);
+//	ListAdd(&Lb, 5);
+//	ListAdd(&Lb, 4);
+//	ListAdd(&Lb, 2);
+//	ListAdd(&Lb, 1);
+//	ListAdd(&Lb, 3);
+//
+//	TraverseList(&Lb);
+//	/*ListInsert(&Lb, 13, 88);
+//	TraverseList(&Lb);
+//	if (ListEmpty(&La))
+//		printf("链表为空！！！\n");*/
+//	return 0;
+//}
+//
+//void InitList(SqList* L) {
+//	L->length = 0;
+//	return;
+//}
+//bool ListEmpty(SqList* L) {
+//	if (L->length) {
+//		return false;
+//	}
+//	else {
+//		return true;
+//	}
+//}
+//bool ListAdd(SqList* L, ElemType e) {
+//	if (L->length == MAXSIZE) {
+//		return false;
+//	}
+//	// printf("%d\n", L->length);
+//	L->data[L->length] = e;
+//	// printf("%d\n", L->data[L->length]);
+//	L->length++;
+//	return true;
+//}
+//bool TraverseList(SqList* L) {
+//	if (!L->length) {
+//		return false;
+//	}
+//	else {
+//		for (int i = 0; i < L->length; i++) {
+//			printf("%d\t", L->data[i]);
+//		}
+//		printf("\n");
+//		return true;
+//	}
+//}
+//bool ListInsert(SqList* L, int p, ElemType e) {
+//	if (L->length == MAXSIZE) {
+//		return false;
+//	}
+//	if (p < 1 || p > L->length + 1) {
+//		return false;
+//	}
+//	// 1 2 3 4  2 88
+//	for (int i = L->length - 1; i >= p - 1; i--) {
+//		L->data[i + 1] = L->data[i];
+//	}
+//	L->data[p - 1] = e;
+//	L->length++;
+//	return true;
+//}
+//void unionL(SqList* La, SqList* Lb) {
+//	int La_len, Lb_len, i;
+//	SqList Lc;
+//	InitList(&Lc);
+//	ElemType e;
+//	La_len = La->length;
+//	Lb_len = Lb->length;
+//	for (i = 1; i <= Lb_len; i++) {
+//		GetElem(Lb, i, &e);
+//		if (!LocateElem(&La, e))
+//			ListInsert(&La, ++La_len, e);
+//	}
+//}
+//void GetElem(SqList* L, int p, ElemType* e) {
+//	*e = L->data[p - 1];
+//	return;
+//}
+//bool LocateElem(SqList* L, ElemType e) {
+//	int i, l = L->length;
+//	for (i = 0; i < l; i++) {
+//		if (L->data[i] == e) {
+//			return true;
+//			break;
+//		}
+//	}
+//	return false;
+//}
 /*2022/10/14练习*/
 //#include<stdio.h>
 //#include<malloc.h>

@@ -1,3 +1,30 @@
+#include<stdio.h>
+int main() {
+	int T = 0;
+	double a, b;
+	scanf_s("%d", &T);
+	scanf_s("%lf%lf", &a, &b);
+	while (T != 0) {
+		if (a > 0 && b > 0) {
+			if (a < b) {
+				int t = 1;
+				while (1) {
+					t += 1;
+					a = (double)t * a;
+					b = (double)t * b;
+					if (a / 2 == 0 || b / 2 == 0) {
+						printf("%d\n", t - 1);
+						break;
+					}
+					t++;
+				}
+			}
+		}
+		T -= 1;
+	}
+	return 0;
+}
+
 
 /*2022/10/25*/
 //#include<stdio.h>
