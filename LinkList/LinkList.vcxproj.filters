@@ -27,5 +27,8 @@
     <ClCompile Include="coding3.c">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="test001.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

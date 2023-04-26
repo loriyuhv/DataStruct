@@ -73,14 +73,3 @@
 //	printf("\n");
 //	return true;
 //}
-
-//#include<stdio.h>
-//#include<malloc.h>
-//
-//int main1() {
-//	int* a = NULL;
-//	while (a) {
-//		printf("Hello\n");
-//	}
-//	return 0;
-//}
