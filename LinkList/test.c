@@ -1,121 +1,366 @@
-/*Adjacency List*/
-#include<stdio.h>
-#include<malloc.h>
-#include<stdlib.h>
+/*静态链表*/
+#include <stdio.h>
 
-#define MAX_VEX 10
-int visited[MAX_VEX];
+#define MAXSIZE 10
+typedef int ElemType;
 
-typedef int EdgeType;
-typedef char VertexType;
+typedef struct node {
+	ElemType data;
+	int cur;	/*游标（Cursor），为0时表示无指向 */
+}Component, StaticLinkList[MAXSIZE];
 
-/*边表结点*/
-typedef struct EdgeNode {
-	int adjvex;
-	EdgeType weight;
-	struct EdgeNode* next;
-}EdgeNode;
-
-typedef struct VertexNode {
-	VertexType data;
-	EdgeNode* firstedge;	// 边表头结点
-}VertexNode, AdjList[MAX_VEX];
-
-typedef struct GraphAdjList {
-	AdjList adjList;
-	int numVertexes, numEdges;
-}GraphAdjList;
-
-void CreateGraphAdjList(GraphAdjList* G) {
-	int i, j, k, v;
-	EdgeNode* e;
-
-	printf("请输入顶点数和边数：\n");
-	scanf_s("%d%d", &G->numVertexes, &G->numEdges);
-
-	for (i = 0; i < G->numVertexes; i++) {
-		printf("请输入第%d个顶点信息：", i + 1);
-		char ch = getchar();
-		scanf_s("%c", &G->adjList[i].data, 1);
-		G->adjList[i].firstedge = NULL;
-	}
-
-	for (k = 0; k < G->numEdges; k++) {
-		printf("请输入边<vi, vj>，下标i和下标j以及权值：\n");
-		scanf_s("%d%d%d", &i, &j, &v);
-
-		EdgeNode* p;
-
-		p = G->adjList[i].firstedge;
-		while (p) {
-			p = p->next;
-		}
-		e = (EdgeNode*)malloc(sizeof(EdgeNode));
-		if (!e) {
-			printf("Failed！！！\n");
-			exit(-1);
-		}
-		e->adjvex = j;
-		e->weight = v;
-		e->next = p;
-		p = e;
-
-		p = G->adjList[j].firstedge;
-		while (p) {
-			p = p->next;
-		}
-		e = (EdgeNode*)malloc(sizeof(EdgeNode));
-		if (!e) {
-			printf("Failed！！！\n");
-			exit(-1);
-		}
-		e->adjvex = i;
-		e->weight = v;
-		e->next = p;
-		p = e;
-	}
-}
-
-void TraverseVertexes(GraphAdjList* G) {
+int InitList(StaticLinkList space) {
 	int i;
-	for (i = 0; i < G->numVertexes; i++) {
-		printf("%c\t", G->adjList[i].data);
+	for (i = 0; i < MAXSIZE; ++i) {
+		space[i].cur = i + 1;
 	}
-	printf("\n");
+	space[MAXSIZE - 1].cur = 0; /*目前静态链表为空，最后一个元素的cur为0 */
+	return 1;
+}
+int Listlength(StaticLinkList L) {
+	int j = 0;
+	int i = L[MAXSIZE - 1].cur;
+	while (i) {
+		i = L[i].cur;
+		j++;
+	}
+	return j;
+}
+int Malloc_SLL(StaticLinkList space) {
+	int i = space[0].cur;	/* 当前数组第一个元素的cur存的值，就是
+							返回的第一个备用空闲的下标 */
+	if (space[0].cur)
+		space[0].cur = space[i].cur;	/* 由于要拿出一个分量来使用了，所以我们
+										就得把它的下一个分量用来备用*/
+	return i;
 }
 
-void dfs(GraphAdjList* G, int i) {
-	EdgeNode* p;
-	visited[i] = 1;
-	printf("%c\t", G->adjList[i].data);
-	p = G->adjList[i].firstedge;
-	while (p) {
-		if (!visited[p->adjvex]) {
-			dfs(G, p->adjvex);
-		}
-		p = p->next;
-	}
+void Free_SSL(StaticLinkList space, int k) {
+	space[k].cur = space[0].cur;
+	space[0].cur = k;
 }
 
-void TraverseDfs(GraphAdjList* G) {
-	int i;
-	for (i = 0; i < G->numVertexes; i++) {
-		visited[i] = 0;
-	}
+/* 在L中第i个元素之前插入新的数据元素 */
+int ListInsert(StaticLinkList L, int i, ElemType e) {
+	int j, k, l;
+	k = MAXSIZE - 1;	/*注意k首先是最后一个元素的下标 */
+	if (i < 1 || i > Listlength(L) + 1)
+		return 0;
 
-	for (i = 0; i < G->numVertexes; i++) {
-		if (!visited[i]) {
-			dfs(G, i);
-		}
+	j = Malloc_SLL(L);	/* 获得空闲分量的下标 */
+	if (j) {
+		L[j].data = e;
+		for (l = 1; l <= i - 1; ++l)
+			k = L[k].cur;	/*找到第i个元素之前的位置 */
+		L[j].cur = L[k].cur;
+		L[k].cur = j;
+		return 1;
 	}
-}
-
-int main() {
-	GraphAdjList G;
-	CreateGraphAdjList(&G);
-	TraverseDfs(&G);
 	return 0;
 }
+
+/* 删除在L中第i个数据元素e */
+int ListDelete(StaticLinkList L, int i) {
+	int j, k;
+	if (i < 1 || i > Listlength(L))
+		return 0;
+	k = MAXSIZE - 1;
+	for (j = 1; j <= i - 1; j++)
+		k = L[k].cur;
+	j = L[k].cur;
+	L[k].cur = L[j].cur;
+	Free_SLL(L, j);
+	return 1;
+}
+void ListTraverse(StaticLinkList L) {
+	if (!L[MAXSIZE - 1].cur) {
+		printf("链表为空！！！\n");
+		return;
+	}
+	int cursor = L[MAXSIZE - 1].cur;
+	while (cursor) {
+		printf("%d\t", L[cursor].data);
+		cursor = L[cursor].cur;
+	}
+	printf("\n");
+	return;
+}
+int main() {
+	StaticLinkList space;
+	InitList(space);
+	for (int i = 0; i < 5; ++i)
+		ListInsert(space, i+1, i);
+	ListTraverse(space);
+	ListInsert(space, 2, 88);
+	ListTraverse(space);
+	return 0;
+}
+/*顺序存储结构实现存储学生信息*/
+//#include<stdio.h>
+//
+//#define MAXSIZE 10	/* 存储空间初始分配量 */
+//#define TRUE 1
+//#define FALSE 0
+//
+//typedef int Boolean;	/* Boolean类型，其值是TRUE和FALSE */
+//struct students {
+//	char name;
+//	char sex;
+//	int age;
+//};
+//typedef struct students ElemType;
+//typedef struct {
+//	ElemType data[MAXSIZE];	/* 数组存储数据元素， 最大值为MAXSIZE*/
+//	int length;	/* 线性表当前长度 */
+//}SqList;	/* Sequence List*/
+//
+//void InitList(SqList* L) {
+//	L->length = 0;
+//	return;
+//}
+//Boolean ListEmpty(SqList L) {
+//	return L.length ? FALSE : TRUE;
+//}
+//Boolean GetElem(SqList L, int i, ElemType* e) {
+//	if (!L.length || i < 1 || i > L.length)
+//		return FALSE;
+//	*e = L.data[i - 1];
+//	return TRUE;
+//}
+//Boolean ListInsert(SqList* L, int i, ElemType e) {
+//	if (L->length == MAXSIZE || i < 1 || i > L->length + 1)
+//		return FALSE;
+//
+//	if (i < L->length) {
+//		for (int k = L->length; k >= i - 1; k--) {
+//			L->data[k + 1] = L->data[k];
+//		}
+//	}
+//	L->data[i - 1] = e;
+//	L->length++;
+//	return TRUE;
+//}
+//void ListTraverse(SqList L) {
+//	if (!L.length)
+//		printf("线性表为空！！！\n");
+//	for (int k = L.length - 1; k >= 0; --k)
+//		printf("Name:%c Age：%d Sex：%c\n", L.data[k].name, L.data[k].age, L.data[k].sex);
+//	return;
+//}
+//
+//
+//int main() {
+//	SqList a;
+//	char name, sex;
+//	int age;
+//	InitList(&a);
+//	struct students student;
+//	for (int i = 0; i < 3; i++) {
+//		scanf_s("%c", &name, 1);
+//		scanf_s("%c", &sex, 1);
+//		scanf_s("%d", &age);
+//		char ch = getchar();
+//		student.name = name;
+//		student.sex = sex;
+//		student.age = age;
+//		if (ListInsert(&a, i + 1, student))
+//			printf("插入%d值成功！！！\n", i + 1);
+//		else
+//			printf("插入%d值失败！！！\n", i + 1);
+//	}
+//	
+//	if (ListEmpty(a)) {
+//		printf("数组为空！！！\n");
+//	}
+//
+//	ListTraverse(a);
+//	return 0;
+//}
+
+//#include<stdio.h>
+//
+//int main() {
+//	float weight, price;	/* weight：货物的重量 price:快递费*/
+//	printf("请输入货物的重量：");
+//	scanf_s("%f", &weight);
+//
+//	if (weight <= 5) {
+//		price = weight * 3;
+//	}
+//	else if (weight > 5 && weight <= 10) {
+//		price = 5 * 3 + (weight - 5) * 3.5;
+//	}
+//	else if (weight > 10 && weight <= 20) {
+//		price = 5 * 3 + 5 * 3.5 + (weight - 10) * 4;
+//	}
+//	else if (weight > 20 && weight <= 30) {
+//		price = 5 * 3 + 5 * 3.5 + 10 * 4 + (weight - 20) * 4.5;
+//	}
+//	else if (weight > 30 && weight <= 50) {
+//		price = 5 * 3 + 5 * 3.5 + 10 * 4 + 10 * 4.5 + (weight - 30) * 5;
+//	}
+//	else {
+//		printf("货物重量>50kg，拒收！！！\n");
+//		return 0;
+//	}
+//	printf("快递费是%.2f元\n", price);
+//
+//	return 0;
+//}
+
+// 实现Boolean类型
+//#include<stdio.h>
+//
+//typedef int Boolean;
+//
+//#define TRUE 1
+//#define FALSE 0
+//
+//int main() {
+//	Boolean a = TRUE;
+//	if (a) {
+//		printf("Hello world!!!\n");
+//	}
+//	return 0;
+//}
+
+//#include<stdio.h>
+//
+//typedef struct Classes {
+//	char name[10];
+//}Classes;
+//int main() {
+//	Classes num1;
+//	int i;
+//	for (i = 0; i < 2; i++) {
+//		scanf_s("%c",  &num1.name[i], 1);
+//		char ch = getchar();
+//	}
+//
+//	for (i = 0; i < 2; i++) {
+//		printf("%c\t", num1.name[i]);
+//	}
+//	return 0;
+//}
+
+/*Adjacency List*/
+//#include<stdio.h>
+//#include<malloc.h>
+//#include<stdlib.h>
+//
+//#define MAX_VEX 10
+//int visited[MAX_VEX];
+//
+//typedef int EdgeType;
+//typedef char VertexType;
+//
+//边表结点
+//typedef struct EdgeNode {
+//	int adjvex;
+//	EdgeType weight;
+//	struct EdgeNode* next;
+//}EdgeNode;
+//
+//typedef struct VertexNode {
+//	VertexType data;
+//	EdgeNode* firstedge;	// 边表头结点
+//}VertexNode, AdjList[MAX_VEX];
+//
+//typedef struct GraphAdjList {
+//	AdjList adjList;
+//	int numVertexes, numEdges;
+//}GraphAdjList;
+//
+//void CreateGraphAdjList(GraphAdjList* G) {
+//	int i, j, k, v;
+//	EdgeNode* e;
+//
+//	printf("请输入顶点数和边数：\n");
+//	scanf_s("%d%d", &G->numVertexes, &G->numEdges);
+//
+//	for (i = 0; i < G->numVertexes; i++) {
+//		printf("请输入第%d个顶点信息：", i + 1);
+//		char ch = getchar();
+//		scanf_s("%c", &G->adjList[i].data, 1);
+//		G->adjList[i].firstedge = NULL;
+//	}
+//
+//	for (k = 0; k < G->numEdges; k++) {
+//		printf("请输入边<vi, vj>，下标i和下标j以及权值：\n");
+//		scanf_s("%d%d%d", &i, &j, &v);
+//
+//		EdgeNode* p;
+//
+//		p = G->adjList[i].firstedge;
+//		while (p) {
+//			p = p->next;
+//		}
+//		e = (EdgeNode*)malloc(sizeof(EdgeNode));
+//		if (!e) {
+//			printf("Failed！！！\n");
+//			exit(-1);
+//		}
+//		e->adjvex = j;
+//		e->weight = v;
+//		e->next = p;
+//		p = e;
+//
+//		p = G->adjList[j].firstedge;
+//		while (p) {
+//			p = p->next;
+//		}
+//		e = (EdgeNode*)malloc(sizeof(EdgeNode));
+//		if (!e) {
+//			printf("Failed！！！\n");
+//			exit(-1);
+//		}
+//		e->adjvex = i;
+//		e->weight = v;
+//		e->next = p;
+//		p = e;
+//	}
+//}
+//
+//void TraverseVertexes(GraphAdjList* G) {
+//	int i;
+//	for (i = 0; i < G->numVertexes; i++) {
+//		printf("%c\t", G->adjList[i].data);
+//	}
+//	printf("\n");
+//}
+//
+//void dfs(GraphAdjList* G, int i) {
+//	EdgeNode* p;
+//	visited[i] = 1;
+//	printf("%c\t", G->adjList[i].data);
+//	p = G->adjList[i].firstedge;
+//	while (p) {
+//		if (!visited[p->adjvex]) {
+//			dfs(G, p->adjvex);
+//		}
+//		p = p->next;
+//	}
+//}
+//
+//void TraverseDfs(GraphAdjList* G) {
+//	int i;
+//	for (i = 0; i < G->numVertexes; i++) {
+//		visited[i] = 0;
+//	}
+//
+//	for (i = 0; i < G->numVertexes; i++) {
+//		if (!visited[i]) {
+//			dfs(G, i);
+//		}
+//	}
+//}
+//
+//int main() {
+//	GraphAdjList G;
+//	CreateGraphAdjList(&G);
+//	TraverseDfs(&G);
+//	return 0;
+//}
 // 离散存储（链表）
 //#include<stdio.h>
 //#include<malloc.h>
