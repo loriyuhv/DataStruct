@@ -1,3 +1,26 @@
+/*2023/5/6*/
+/*练习不同函数数组传参*/
+#include<iostream>
+using namespace std;
+
+typedef int Array[10];
+
+void f(Array a) {
+	a[0] = 1;
+}
+void f1(Array* a) {
+	(*a)[0] = 99;
+}
+
+int main() {
+	Array a;
+	f(a);
+	cout << a[0] << endl;
+	f1(&a);
+	cout << a[0] << endl;
+	return 0;
+}
+
 //#include<iostream>
 //#include<string>
 //#include<vector>
