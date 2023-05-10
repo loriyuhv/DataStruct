@@ -12,12 +12,46 @@ void f1(Array* a) {
 	(*a)[0] = 99;
 }
 
+
+void f2(int a, int* b) {
+	a = 2;
+	*b = 2;
+}
+
+void f3(int a[2]) {
+	a[0] = -2;
+	a[1] = -4;
+}
+
+void f4() {
+	int a, * b, z;
+	a = 1;
+	z = 1;
+	b = &z;
+}
+
+void f5(int a[2]) {
+	a[0] = -1;
+	a[1] = -2;
+}
+
 int main() {
-	Array a;
+	/*Array a;
 	f(a);
 	cout << a[0] << endl;
 	f1(&a);
-	cout << a[0] << endl;
+	cout << a[0] << endl;*/
+
+	/*int a, b;
+	a = 1;
+	b = 1;
+	f2(a, &b);
+	printf("%d %d\n", a, b);*/
+	int a[2];
+	a[0] = 1;
+	a[1] = 2;
+	f5(a);
+	cout << a[0] << " " << a[1] << endl;
 	return 0;
 }
 

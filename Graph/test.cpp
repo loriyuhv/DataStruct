@@ -6,7 +6,7 @@ using namespace std;
 typedef char VertexType;	/* 顶点类型 */
 typedef int EdgeType;		/* 边上的权值类型 */
 
-#define MAXVEX 5			/* 最大顶点数 */
+#define MAXVEX 10			/* 最大顶点数 */
 #define INFINITY 99			/* 用99来代表∞ */
 
 typedef struct {
@@ -26,8 +26,8 @@ void CreateMGraph(MGraph* G) {
 		scanf_s("%c", &G->vexs[i], 1);
 	}
 
-	for (i = 0; i < G->numEdges; ++i)
-		for (j = 0; j < G->numEdges; ++j)
+	for (i = 0; i < G->numVertexes; ++i)
+		for (j = 0; j < G->numVertexes; ++j)
 			G->arc[i][j] = INFINITY;	/* 邻接矩阵初始化 */
 	// 读入numEdges条边，建立邻接矩阵
 	for (k = 0; k < G->numEdges; ++k) {
@@ -71,51 +71,93 @@ typedef int ShortPathTable[MAXVEX];	/*用于存储到各点最短路径的权值和 */
 
 // Dijkstra算法，求有向网G的V0顶点到其余顶点v最短路径P[v]及带权长度D[v]
 // P[v] 的值为前驱顶点的下标，D[v]表示v0到v的最短路径长度和。
+//void ShortestPath_Dijkstra(MGraph G, int v0, Patharc* P, ShortPathTable* D) {
+//	int v, w, k, min;
+//	int status[MAXVEX];	/* status[w]=1 表示求得顶点v0至vw的最短路径 */
+//
+//	// 初始化数据
+//	for (v = 0; v < G.numVertexes; ++v) {
+//		status[v] = 0;			/* 全部顶点初始化为未知最短路径状态 */
+//		(*D)[v] = G.arc[v0][v]; /* 将与v0点有连线的顶点加上权值 */
+//		(*P)[v] = 0;			/* 初始化路径数组P为0 */
+//	}
+//	(*D)[v0] = 0;	/* v0至v0的路径为0 */
+//	status[v0] = 1;	/* v0至v0不需要求路径 */
+//
+//	// 开始主循环，每次求得v0到某个v顶点的最短路径
+//	for (v = 1; v < G.numVertexes; ++v) {
+//		min = INFINITY;		/* 当前所知离v0顶点的最近距离 */
+//
+//		// 寻找离v0最近的顶点
+//		for (w = 0; w < G.numVertexes; ++w) {
+//			if (!status[w] && (*D)[w] < min) {
+//				k = w;
+//				min = (*D)[w]; /* w顶点离v0顶点更近 */
+//			}
+//		}
+//		status[k] = 1;	/* 将目前找到的最近的顶点置为1 */
+//
+//		// 修正当前最短路径及距离
+//		for (w = 0; w < G.numVertexes; ++w) {
+//			// 如果经过v顶点的路径比现在这条路径的长度短的话
+//			if (!status[w] && (min + G.arc[k][w] < (*D)[w])) {
+//				// 说明找到了更短的路径，修改D[w]和P[w]
+//				(*D)[w] = min + G.arc[k][w];	/* 修改当前路径长度 */
+//				(*P)[w] = k;
+//			}
+//		}
+//	}
+//}
+
 void ShortestPath_Dijkstra(MGraph G, int v0, Patharc* P, ShortPathTable* D) {
-	int v, w, k, min;
-	int status[MAXVEX];	/* status[w]=1 表示求得顶点v0至vw的最短路径 */
+	int i, v, k, w, min;
+	int status[MAXVEX];	/* status[w] = 1 w结点就是最短路径 */
 
-	// 初始化数据
-	for (v = 0; v < G.numVertexes; ++v) {
-		status[v] = 0;			/* 全部顶点初始化为未知最短路径状态 */
-		(*D)[v] = G.arc[v0][v]; /* 将与v0点有连线的顶点加上权值 */
-		(*P)[v] = 0;			/* 初始化路径数组P为0 */
+	// 初始化
+	for (w = 0; w < G.numVertexes; ++w) {
+		status[w] = 0;	/* 将所有结点都设置为未找到状态 */
+		(*D)[w] = G.arc[v0][w];	/* 将与0的结点连线*/
+		(*P)[w] = 0;	/* 将路径值设为0 */
 	}
-	(*D)[v0] = 0;	/* v0至v0的路径为0 */
-	status[v0] = 1;	/* v0至v0不需要求路径 */
+	(*D)[v0] = 0;	/*v0到v0的权值为0*/
+	status[v0] = 1;
 
-	// 开始主循环，每次求得v0到某个v顶点的最短路径
+	// 求出v0到v的最短路径
 	for (v = 1; v < G.numVertexes; ++v) {
-		min = INFINITY;		/* 当前所知离v0顶点的最近距离 */
+		min = INFINITY;
 
-		// 寻找离v0最近的顶点
+		// 得出与v0最近的顶点
 		for (w = 0; w < G.numVertexes; ++w) {
 			if (!status[w] && (*D)[w] < min) {
 				k = w;
-				min = (*D)[w]; /* w顶点离v0顶点更近 */
+				min = (*D)[w];
 			}
 		}
-		status[k] = 1;	/* 将目前找到的最近的顶点置为1 */
+		status[k] = 1;
 
-		// 修正当前最短路径及距离
+		// 修改各顶点到v0的最短路径距离
 		for (w = 0; w < G.numVertexes; ++w) {
-			// 如果经过v顶点的路径比现在这条路径的长度短的话
-			if (!status[w] && (min + G.arc[k][w] < (*D)[w])) {
-				// 说明找到了更短的路径，修改D[w]和P[w]
-				(*D)[w] = min + G.arc[k][w];	/* 修改当前路径长度 */
+			// 如果经过v点比当前路径小的话
+			if (!status[w] && (min + G.arc[k][w]) < (*D)[w]) {
+				(*D)[w] = min + G.arc[k][w];
 				(*P)[w] = k;
 			}
 		}
 	}
+
 }
+
 int main() {
 	MGraph G;
 	CreateMGraph(&G);
-	DFSTraverse(G);
+	// DFSTraverse(G);
 
 	Patharc P;
 	ShortPathTable D;
 	ShortestPath_Dijkstra(G, 0, &P, &D);
+	for (int i = 0; i < G.numVertexes; ++i) {
+		cout << D[i] << "\t";
+	}
 	return 0;
 }
 /*Dijkstra算法*/
