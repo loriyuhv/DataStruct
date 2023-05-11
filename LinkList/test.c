@@ -1,100 +1,100 @@
 /*静态链表*/
-#include <stdio.h>
-
-#define MAXSIZE 10
-typedef int ElemType;
-
-typedef struct node {
-	ElemType data;
-	int cur;	/*游标（Cursor），为0时表示无指向 */
-}Component, StaticLinkList[MAXSIZE];
-
-int InitList(StaticLinkList space) {
-	int i;
-	for (i = 0; i < MAXSIZE; ++i) {
-		space[i].cur = i + 1;
-	}
-	space[MAXSIZE - 1].cur = 0; /*目前静态链表为空，最后一个元素的cur为0 */
-	return 1;
-}
-int Listlength(StaticLinkList L) {
-	int j = 0;
-	int i = L[MAXSIZE - 1].cur;
-	while (i) {
-		i = L[i].cur;
-		j++;
-	}
-	return j;
-}
-int Malloc_SLL(StaticLinkList space) {
-	int i = space[0].cur;	/* 当前数组第一个元素的cur存的值，就是
-							返回的第一个备用空闲的下标 */
-	if (space[0].cur)
-		space[0].cur = space[i].cur;	/* 由于要拿出一个分量来使用了，所以我们
-										就得把它的下一个分量用来备用*/
-	return i;
-}
-
-void Free_SSL(StaticLinkList space, int k) {
-	space[k].cur = space[0].cur;
-	space[0].cur = k;
-}
-
-/* 在L中第i个元素之前插入新的数据元素 */
-int ListInsert(StaticLinkList L, int i, ElemType e) {
-	int j, k, l;
-	k = MAXSIZE - 1;	/*注意k首先是最后一个元素的下标 */
-	if (i < 1 || i > Listlength(L) + 1)
-		return 0;
-
-	j = Malloc_SLL(L);	/* 获得空闲分量的下标 */
-	if (j) {
-		L[j].data = e;
-		for (l = 1; l <= i - 1; ++l)
-			k = L[k].cur;	/*找到第i个元素之前的位置 */
-		L[j].cur = L[k].cur;
-		L[k].cur = j;
-		return 1;
-	}
-	return 0;
-}
-
-/* 删除在L中第i个数据元素e */
-int ListDelete(StaticLinkList L, int i) {
-	int j, k;
-	if (i < 1 || i > Listlength(L))
-		return 0;
-	k = MAXSIZE - 1;
-	for (j = 1; j <= i - 1; j++)
-		k = L[k].cur;
-	j = L[k].cur;
-	L[k].cur = L[j].cur;
-	Free_SLL(L, j);
-	return 1;
-}
-void ListTraverse(StaticLinkList L) {
-	if (!L[MAXSIZE - 1].cur) {
-		printf("链表为空！！！\n");
-		return;
-	}
-	int cursor = L[MAXSIZE - 1].cur;
-	while (cursor) {
-		printf("%d\t", L[cursor].data);
-		cursor = L[cursor].cur;
-	}
-	printf("\n");
-	return;
-}
-int main() {
-	StaticLinkList space;
-	InitList(space);
-	for (int i = 0; i < 5; ++i)
-		ListInsert(space, i+1, i);
-	ListTraverse(space);
-	ListInsert(space, 2, 88);
-	ListTraverse(space);
-	return 0;
-}
+//#include <stdio.h>
+//
+//#define MAXSIZE 10
+//typedef int ElemType;
+//
+//typedef struct node {
+//	ElemType data;
+//	int cur;	/*游标（Cursor），为0时表示无指向 */
+//}Component, StaticLinkList[MAXSIZE];
+//
+//int InitList(StaticLinkList space) {
+//	int i;
+//	for (i = 0; i < MAXSIZE; ++i) {
+//		space[i].cur = i + 1;
+//	}
+//	space[MAXSIZE - 1].cur = 0; /*目前静态链表为空，最后一个元素的cur为0 */
+//	return 1;
+//}
+//int Listlength(StaticLinkList L) {
+//	int j = 0;
+//	int i = L[MAXSIZE - 1].cur;
+//	while (i) {
+//		i = L[i].cur;
+//		j++;
+//	}
+//	return j;
+//}
+//int Malloc_SLL(StaticLinkList space) {
+//	int i = space[0].cur;	/* 当前数组第一个元素的cur存的值，就是
+//							返回的第一个备用空闲的下标 */
+//	if (space[0].cur)
+//		space[0].cur = space[i].cur;	/* 由于要拿出一个分量来使用了，所以我们
+//										就得把它的下一个分量用来备用*/
+//	return i;
+//}
+//
+//void Free_SSL(StaticLinkList space, int k) {
+//	space[k].cur = space[0].cur;
+//	space[0].cur = k;
+//}
+//
+///* 在L中第i个元素之前插入新的数据元素 */
+//int ListInsert(StaticLinkList L, int i, ElemType e) {
+//	int j, k, l;
+//	k = MAXSIZE - 1;	/*注意k首先是最后一个元素的下标 */
+//	if (i < 1 || i > Listlength(L) + 1)
+//		return 0;
+//
+//	j = Malloc_SLL(L);	/* 获得空闲分量的下标 */
+//	if (j) {
+//		L[j].data = e;
+//		for (l = 1; l <= i - 1; ++l)
+//			k = L[k].cur;	/*找到第i个元素之前的位置 */
+//		L[j].cur = L[k].cur;
+//		L[k].cur = j;
+//		return 1;
+//	}
+//	return 0;
+//}
+//
+///* 删除在L中第i个数据元素e */
+//int ListDelete(StaticLinkList L, int i) {
+//	int j, k;
+//	if (i < 1 || i > Listlength(L))
+//		return 0;
+//	k = MAXSIZE - 1;
+//	for (j = 1; j <= i - 1; j++)
+//		k = L[k].cur;
+//	j = L[k].cur;
+//	L[k].cur = L[j].cur;
+//	Free_SLL(L, j);
+//	return 1;
+//}
+//void ListTraverse(StaticLinkList L) {
+//	if (!L[MAXSIZE - 1].cur) {
+//		printf("链表为空！！！\n");
+//		return;
+//	}
+//	int cursor = L[MAXSIZE - 1].cur;
+//	while (cursor) {
+//		printf("%d\t", L[cursor].data);
+//		cursor = L[cursor].cur;
+//	}
+//	printf("\n");
+//	return;
+//}
+//int main() {
+//	StaticLinkList space;
+//	InitList(space);
+//	for (int i = 0; i < 5; ++i)
+//		ListInsert(space, i+1, i);
+//	ListTraverse(space);
+//	ListInsert(space, 2, 88);
+//	ListTraverse(space);
+//	return 0;
+//}
 /*顺序存储结构实现存储学生信息*/
 //#include<stdio.h>
 //
@@ -176,7 +176,6 @@ int main() {
 //	ListTraverse(a);
 //	return 0;
 //}
-
 //#include<stdio.h>
 //
 //int main() {
@@ -207,7 +206,6 @@ int main() {
 //
 //	return 0;
 //}
-
 // 实现Boolean类型
 //#include<stdio.h>
 //
@@ -223,7 +221,6 @@ int main() {
 //	}
 //	return 0;
 //}
-
 //#include<stdio.h>
 //
 //typedef struct Classes {
@@ -1003,7 +1000,6 @@ int main() {
 //		printf("%d\t", a[i]);
 //	return 0;
 //}
-
 /*Dereferencing NULL pointer <name> */
 //#include <stdio.h>
 //#include <malloc.h>
