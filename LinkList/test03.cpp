@@ -1,3 +1,102 @@
+/*练习线性表链式存储结构（插入删除）*/
+//#include<iostream>
+//#include<stdlib.h>
+//using namespace std;
+//
+//typedef int ElemType;
+//typedef struct Node {
+//	ElemType data;
+//	struct Node* next;
+//}*LinkList;
+//
+//bool InitList(LinkList* L, int n) {
+//	LinkList s;
+//	int i, e;
+//	*L = (LinkList)malloc(sizeof(Node));
+//	if (!(*L))
+//		exit(-1);
+//	(*L)->next = NULL;
+//
+//	for (i = 0; i < n; i++) {
+//		//cin >> e;
+//		e = i + 1;
+//		s = (LinkList)malloc(sizeof(Node));
+//		if (!s)
+//			exit(-1);
+//		s->data = e;
+//		s->next = (*L)->next;
+//		(*L)->next = s;
+//	}
+//	return true;
+//}
+//bool ListInsert(LinkList* L, int i, ElemType e) {
+//	LinkList p = *L, s;
+//	int j;
+//
+//	j = 1;
+//	// 找到第i-1个结点
+//	while (p && j < i) {
+//		p = p->next;
+//		++j;
+//	}
+//	// 第i个结点不存在
+//	if (!p || j > i) {
+//		return false;
+//	}
+//
+//	s = (LinkList)malloc(sizeof(Node));
+//	if (!s)
+//		exit(-1);
+//	s->data = e;
+//	s->next = p->next;
+//	p->next = s;
+//	return true;
+//}
+//bool ListDelete(LinkList* L, int i, ElemType* e) {
+//	LinkList p = *L, r;
+//	int j;
+//	j = 1;
+//	// 寻找第i-1个结点
+//	while (p && j < i) {
+//		p = p->next;
+//		++j;
+//	}
+//	// 第i个结点不存在
+//	if (!p || j > i) {
+//		return false;
+//	}
+//	r = p->next;
+//	*e = r->data;
+//	p->next = r->next;
+//	free(r);
+//}
+//void ListTraverse(LinkList L) {
+//	LinkList p = L->next;
+//	if (!p) {
+//		cout << "LinkList is NULL!!!\n";
+//		return;
+//	}
+//
+//	while (p) {
+//		cout << p->data << "\t";
+//		p = p->next;
+//	}
+//	cout << "\n";
+//	return;
+//}
+//
+//int main() {
+//	LinkList node = NULL;
+//	InitList(&node, 3);
+//	ListTraverse(node);
+//	//ListInsert(&node, 5, 88);
+//	//ListTraverse(node);
+//	ElemType e;
+//	ListDelete(&node, 1, &e);
+//	cout << e << endl;
+//	ListTraverse(node);
+//	return 0;
+//}
 /*练习线性表链式存储结构*/
 //#include<iostream>
 //using namespace std;
