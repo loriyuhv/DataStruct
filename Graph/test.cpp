@@ -1,5 +1,213 @@
-/*2023/5/10*/
+/*2023/5/11*/
+/*邻接表复习*/
+#include<iostream>
+//#include<stdlib.h>
+using namespace std;
 
+#define MAXVEX 10
+
+typedef char VertexType;
+typedef int EdgeType;
+
+//// 边表结点
+//typedef struct EdgeNode {
+//	int adjvex;		/* 邻接点域，存储该顶点对应的下标 */
+//	EdgeType weight;	/* 用于存储权值，对于非网图可以不需要 */
+//	struct EdgeNode* next;	/* 链域， 指向下一个邻接点 */
+//}EdgeNode;
+//
+//// 顶点表结点
+//typedef struct VertexNode {
+//	VertexType data;	/* 顶点域，存储顶点信息 */
+//	EdgeNode* firstedge;	/* 边表头指针 */
+//}VertexNode, AdjList[MAXVEX];
+//
+//typedef struct {
+//	AdjList adjList;	
+//	int numVertexes, numEdges;	/* 图中当前顶点数和边数*/
+//}GraphAdjList;
+
+// 边表结点
+typedef struct EdgeNode {
+	int adjvex;			/* 邻接点域，存储该顶点对应的下标 */
+	EdgeType weight;	/* 边上的权值，对于非网图可以不需要 */
+	struct EdgeNode* next;	/* 链域，指向下一个邻接点 */
+}EdgeNode;
+
+// 顶点表结点
+typedef struct VertexNode {
+	VertexType data;	/* 顶点域，存储顶点信息 */
+	EdgeNode* firstedge; /* 边表头指针 */
+}VertexNode, AdjList[MAXVEX];
+
+typedef struct {
+	AdjList adjList;
+	int numVertexes, numEdges;
+}GraphAdjList;
+
+// 建立图的邻接表结构(头插法）
+void CreateALGraphHead(GraphAdjList* G) {
+	int i, j, k, w;
+	EdgeNode* e;
+
+	cout << "输入顶点数和边数：\n";
+	cin >> G->numVertexes >> G->numEdges;
+
+	// 读入顶点信息，建立顶点表
+	for (i = 0; i < G->numVertexes; ++i) {
+		cin >> G->adjList[i].data;		/* 输入顶点信息 */
+		G->adjList[i].firstedge = NULL;	/* 将边表置为空表 */
+	}
+
+	// 建立边表
+	for (k = 0; k < G->numEdges; ++k) {
+		cout << "输入边（vi,vj）上的顶点序号：\n";
+		cin >> i >> j;
+
+		e = (EdgeNode*)malloc(sizeof(EdgeNode));	/* 向内存申请空间，生成边表结点 */
+		if (!e)
+			exit(-1);
+		e->adjvex = j;		/* 邻接序号为j */
+		e->next = G->adjList[i].firstedge;	/* 将e指针指向当前顶点指向的结点*/
+		G->adjList[i].firstedge = e;	/* 将当前顶点的指针指向e*/
+	}
+}
+// 建立图的邻接表结构(尾插法)
+void CreateALGraphTail(GraphAdjList* G) {
+	int i, j, k;
+	EdgeNode* e, * p;
+
+	cout << "输入顶点数和边数：\n";
+	cin >> G->numVertexes >> G->numEdges;
+
+	// 建立顶点表，读入顶点信息
+	for (i = 0; i < G->numVertexes; ++i) {
+		cin >> G->adjList[i].data;	// 输入顶点信息
+		G->adjList[i].firstedge = NULL;	// 将边表置为空表
+	}
+
+	for (k = 0; k < G->numEdges; ++k) {
+		cout << "输入边（vi,vj)上的值：";
+		cin >> i >> j;
+		
+		p = G->adjList[i].firstedge;
+
+		e = (EdgeNode*)malloc(sizeof(EdgeNode));
+		if (!e)
+			exit(-1);
+		e->adjvex = j;
+		e->next = NULL;
+		if (!p) {
+			G->adjList[i].firstedge = e;
+		}
+		else {
+			while (p->next) {
+				p = p->next;
+			}
+			p->next = e;
+		}
+	}
+}
+
+int visited[MAXVEX] = { 0 };
+// 邻接表的深度优先递归算法
+void DFS(GraphAdjList GL, int i) {
+	EdgeNode* p;
+
+	cout << GL.adjList[i].data << "\t";
+	visited[i] = 1;
+	p = GL.adjList[i].firstedge;
+	while (p) {
+		if (!visited[p->adjvex])
+			DFS(GL, p->adjvex);
+		p = p->next;
+	}
+}
+
+// 邻接表的深度遍历操作
+void DFSTraverse(GraphAdjList GL) {
+	int i;
+	for (i = 0; i < GL.numVertexes; ++i)
+		if (!visited[i])
+			DFS(GL, i);
+}
+int main() {
+	GraphAdjList g;
+	//CreateALGraphHead(&g);
+	CreateALGraphTail(&g);
+	//cout << sizeof(g);
+	DFSTraverse(g);
+	return 0;
+}
+/*邻接矩阵复习*/
+//#include<iostream>
+//using namespace std;
+//
+//#define MAXVEX 10
+//#define INFINITY 99
+//
+//typedef char VertexType;
+//typedef int EdgeType;
+//typedef struct {
+//	VertexType vexs[MAXVEX];
+//	EdgeType arc[MAXVEX][MAXVEX];
+//	int numVertexes, numEdges;
+//}MGraph;
+//
+//// 建立无向网图的邻接矩阵表示	Adjacency Matrix
+//void CreateMGraph(MGraph* G) {
+//	int i, j, k, w;
+//	cout << "输入顶点数和边数：\n";
+//	cin >> G->numVertexes >> G->numEdges;
+//
+//	// 读入顶点信息，建立顶点表
+//	for (i = 0; i < G->numVertexes; ++i) {
+//		cin >> G->vexs[i];
+//	}
+//
+//	for (i = 0; i < G->numVertexes; ++i) {
+//		for (j = 0; j < G->numVertexes; ++j)
+//			G->arc[i][j] = INFINITY;	/* 邻接矩阵初始化 */
+//	}
+//
+//	// 读入numEdges条边，建立邻接矩阵
+//	for (k = 0; k < G->numEdges; ++k) {
+//		cout << "输入边（vi,vj）上的下标i，下标j及权值w:\n";
+//		cin >> i >> j >> w;
+//		G->arc[i][j] = w;
+//		G->arc[j][i] = G->arc[i][j];	/* 因为是无向图， 矩阵对称 */
+//	}
+//}
+//
+//int visited[MAXVEX] = { 0 };
+//// 邻接矩阵的深度遍历递归算法
+//void DFS(MGraph G, int i) {
+//	int j;
+//	cout << G.vexs[i] << "\t";
+//	visited[i] = 1;
+//	for (j = 0; j < G.numVertexes; ++j) {
+//		if (G.arc[i][j] != INFINITY && !visited[j])
+//			DFS(G, j);
+//	}
+//}
+//
+//// 邻接矩阵的深度遍历操作
+//void DFSTraverse(MGraph G) {
+//	int i;
+//	for (i = 0; i < G.numVertexes; ++i)
+//		if (!visited[i])
+//			DFS(G, i);
+//}
+//
+//int main() {
+//	MGraph g;
+//	CreateMGraph(&g);
+//	cout << sizeof(g) << endl;
+//	return 0;
+//}
+
+/*2023/5/10*/
+/*[USACO 2009 Oct G]Heat Wave*/
 /*还是不行，但可以过%90了*/
 //#include<iostream>
 //using namespace std;
