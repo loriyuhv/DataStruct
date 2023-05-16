@@ -14,7 +14,7 @@
 //	EdgeType arc[MAXVEX][MAXVEX];
 //	int numVertexes, numEdges;
 //}MGraph;
-///*
+//
 //void CreateMGraph(MGraph* G) {
 //	int i, j, k, w;
 //	cout << "输入顶点数和边数：\n";
@@ -38,7 +38,7 @@
 //		G->arc[j][i] = G->arc[i][j];
 //	}
 //}
-//*/
+//
 //void CreateMGraph(MGraph* G) {
 //	int i, j, k, w;
 //	printf("输入顶点数和边数：\n");
@@ -64,8 +64,8 @@
 //typedef int Patharc[MAXVEX];	/* 用于存储最短路径下标的数组 */
 //typedef int ShortPathTable[MAXVEX]; /* 用于存储到各点最短路径的权值和 */
 //
-///* Dijkstra算法，求有向图G的V0顶点到其余顶点v最短路径P[V]及带权长度D[v] */
-///* P[v]的值为前驱顶点的下标，D[v]表示v0到v的最短路径长度和 */
+//// Dijkstra算法，求有向图G的V0顶点到其余顶点v最短路径P[V]及带权长度D[v]
+//// P[v]的值为前驱顶点的下标，D[v]表示v0到v的最短路径长度和
 //void ShortestPath_Dijkstra(MGraph G, int v0, Patharc* P, ShortPathTable* D) {
 //	int v, w, k, min;
 //	int status[MAXVEX];	/* status[w]=1 表示求得顶点v0至vw的最短路径 */

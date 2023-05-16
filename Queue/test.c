@@ -1,3 +1,71 @@
+/*队列复习*/
+/*队列顺序存储*/
+#include<stdio.h>
+
+#define MAXSIZE 5
+#define bool char
+#define true 1
+#define false 0
+
+typedef int QElemType;
+
+/* 循环队列的顺序存储结构 */
+typedef struct {
+	QElemType data[MAXSIZE];
+	int front;	/* 头指针 */
+	int rear;	/* 尾指针 */
+}SqQueue;
+
+// 初始化一个空队列Q
+bool InitQueue(SqQueue* Q) {
+	Q->front = 0;
+	Q->rear = 0;
+	return true;
+}
+
+// 返回Q的元素个数，也就是当前队列的长度
+int QueueLength(SqQueue Q) {
+	return (Q.rear - Q.front + MAXSIZE) % MAXSIZE;
+}
+
+// 若队列未满，则插入元素e为Q新的队尾元素
+bool EnQueue(SqQueue* Q, QElemType e) {
+	// 队列满的判断
+	if ((Q->rear + 1) % MAXSIZE == Q->front) {
+		return false;
+	}
+	Q->data[Q->rear] = e;
+	Q->rear = (Q->rear + 1) % MAXSIZE;	/* rear指针向后移一位置，若到最后则转到数组头部*/
+	return true;
+}
+// 若队列不空，则删除Q中对头元素，用e返回其值
+bool DeQueue(SqQueue* Q, QElemType* e) {
+	// 队列空的判断
+	if (Q->front == Q->rear)
+		return false;
+
+	*e = Q->data[Q->front];	/* 将队头元素赋值给e */
+	Q->front = (Q->front + 1) % MAXSIZE; /* front指针向后移一位置，若到最后则转到数组头部*/
+	return true;
+}
+
+int main() {
+	SqQueue Q;
+	InitQueue(&Q);
+	for (int i = 0; i < 7; i++) {
+		if (EnQueue(&Q, i + 1))
+			printf("插入第%d个元素成功！！！\n", i + 1);
+	}
+	for (int j = 0; j < 2; j++) {
+		QElemType e;
+		if (DeQueue(&Q, &e)) {
+			printf("%d\t", e);
+		}
+	}
+	printf("%d\n", QueueLength(Q));
+
+	return 0;
+}
 /*循环队列的顺序存储结构练习*/
 //#include<stdio.h>
 //
