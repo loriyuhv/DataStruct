@@ -36,7 +36,7 @@
     <ClCompile Include="pointer_review.c">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="struct_review.cpp">
+    <ClCompile Include="struct_review.c">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

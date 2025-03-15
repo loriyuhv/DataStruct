@@ -130,7 +130,7 @@
     <ClCompile Include="coding.c" />
     <ClCompile Include="coding2.c" />
     <ClCompile Include="coding3.c" />
-    <ClCompile Include="struct_review.cpp" />
+    <ClCompile Include="struct_review.c" />
     <ClCompile Include="test.c" />
     <ClCompile Include="pointer_review.c" />
     <ClCompile Include="test001.cpp" />
