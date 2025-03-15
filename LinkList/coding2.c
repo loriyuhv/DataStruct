@@ -76,7 +76,7 @@
 //}
 //
 //void init_arr(pArr p, int len) {
-//	p->pBase = (pArr)malloc(sizeof(int) * len);
+//	p->pBase = (int*)malloc(sizeof(int) * len);
 //	if (NULL == p->pBase) {
 //		printf("¶¯Ì¬ÄÚ´æ·ÖÅäÊ§°Ü£¡£¡£¡\n");
 //		exit(-1);

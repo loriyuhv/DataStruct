@@ -1,5 +1,155 @@
 /*链表练习文件*/
 
+/*2025/3/23线性表*/
+//#include<stdio.h>
+//#include<malloc.h>
+//#include<stdlib.h>
+//
+//#define bool char
+//#define true 1
+//#define false 0
+//
+//typedef struct Arr {
+//	int* pBase; /*存储的是数组的第一个元素的地址*/
+//	int len; /*数组所能容纳的最大元素个数*/
+//	int cnt; /*当前数组的有效个数*/
+//}*pArr, Arr;
+//
+//void init_arr(pArr p, int len); /*初始化函数声明*/
+//void show_arr(pArr p);
+//void inversion_arr(pArr p);
+//bool append_arr(pArr p, int val); /*追加函数声明*/
+//bool insert_arr(pArr p, int val, int pos); /*插入函数声明*/
+//bool delete_arr(pArr p, int pos, int* e); /*删除函数声明*/
+//bool is_empty(pArr p);
+//bool is_full(pArr p);
+//
+//
+//int main() {
+//	int e, pos;
+//	Arr arr;
+//	init_arr(&arr, 6);
+//	append_arr(&arr, 1);
+//	show_arr(&arr);
+//	inversion_arr(&arr);
+//	show_arr(&arr);
+//	return 0;
+//}
+//
+//void init_arr(pArr p, int len) {
+//	p->pBase = (int*)malloc(sizeof(int) * len);
+//	if (p->pBase == NULL) {
+//		printf("动态内存分配失败！！！");
+//		exit(0);
+//	}
+//	p->cnt = 0;
+//	p->len = len;
+//	return;
+//}
+//void show_arr(pArr p) {
+//	int i;
+//	if (is_empty(p)) {
+//		printf("数组元素为空！！！\n");
+//		return;
+//	}
+//	printf("数组元素为：");
+//	for (i = 0; i < p->cnt; i++) {
+//		printf("%d\t", p->pBase[i]);
+//	}
+//	printf("\n");
+//}
+//
+//void inversion_arr(pArr p) {
+//	int i, n, t = 0;
+//	if (is_empty(p) || p->cnt == 1) {
+//		return;
+//	}
+//	n = p->cnt - 1;
+//	for (i = 0; i <= n / 2; i++) {
+//		t = p->pBase[i];
+//		p->pBase[i] = p->pBase[n-i];
+//		p->pBase[n-i] = t;
+//	}
+//}
+//
+//bool append_arr(pArr p, int val) {
+//	if (is_full(p)) {
+//		printf("数组已满！！！\n");
+//		return false;
+//	}
+//	p->pBase[p->cnt] = val;
+//	p->cnt += 1;
+//	return true;
+//}
+//
+//bool insert_arr(pArr p, int val, int pos) {
+//	int i;
+//	// 数组已满！！！
+//	if (is_full(p)) {
+//		printf("数组已满！！!\n");
+//		return false;
+//	}
+//	// 位置不合理！！！
+//	if (pos <= 0 || pos > p->cnt + 1) {
+//		return false;
+//	}
+//	// 如果位置是最后一位+1，直接插入
+//	if (pos == p->cnt + 1) {
+//		p->pBase[pos-1] = val;
+//		p->cnt += 1;
+//		return true;
+//	}
+//	for (i = p->cnt; i > pos - 1; i--) {
+//		p->pBase[i] = p->pBase[i - 1];
+//	}
+//	p->pBase[pos - 1] = val;
+//	p->cnt += 1;
+//	return true;
+//}
+//
+//bool delete_arr(pArr p, int pos, int* e) {
+//	int i;
+//	// 数组为空！！！
+//	if (is_empty(p)) {
+//		printf("数组为空！！!\n");
+//		return false;
+//	}
+//	// 位置不合理！！！
+//	if (pos <= 0 || pos > p->cnt) {
+//		return false;
+//	}
+//
+//	// 删除元素赋值
+//	*e = p->pBase[pos - 1];
+//
+//	// 如果位置是最后一位，直接删除
+//	if (pos == p->cnt) {
+//		p->cnt -= 1;
+//		return true;
+//	}
+//
+//	// 如果不是	
+//	for (i = pos - 1; i < p->cnt - 1; i++) {
+//		p->pBase[i] = p->pBase[i + 1];
+//	}
+//	p->cnt -= 1;
+//	return true;
+//}
+//
+//bool is_empty(pArr p) {
+//	if (p->cnt == 0) {
+//		return true;
+//	}
+//	return false;
+//}
+//
+//bool is_full(pArr p) {
+//	if (p->cnt >= p->len) {
+//		return true;
+//	}
+//	return false;
+//}
+
 /*2025/3/15温故线性表*/
 /*
 * 1. Java中的浅拷贝和深拷贝学习
@@ -12,159 +162,159 @@
 * 2. 数组的优缺点
 
 */
-#include<stdio.h>
-#include<malloc.h>
-#include<stdlib.h>
-
-#define bool char
-#define true 1
-#define false 0
-
-typedef int ElemType;
-
-typedef struct Arr {
-	ElemType* pBase; // 存储的是数组的第一个元素的地址
-	int len; // 数组所能容纳的最大元素的个数
-	int cnt; // 当前数组有效元素的个数
-	//int increment; // 自动增长因子
-}ArrayList;
-
-void init_arr(ArrayList*, int);
-bool append_arr(ArrayList*,ElemType); // 追加
-bool insert_arr(ArrayList*, ElemType, int); // 插入
-//bool delete_arr();
-//int get();
-bool is_empty(ArrayList*);
-bool is_full(ArrayList*);
-//void sort_arr();
-void show_arr(ArrayList*);
-void inversion_arr(ArrayList*);
-
-int main() {
-	ArrayList array;
-
-	init_arr(&array, 10);
-
-	inversion_arr(&array);
-
-	if (append_arr(&array, 1)) {
-		printf("追加元素%d成功！！！\n", 1);
-	}
-	else {
-		printf("追加元素失败！！！！\n");
-	}
-	if (append_arr(&array, 2)) {
-		printf("追加元素%d成功！！！\n", 1);
-	}
-	else {
-		printf("追加元素失败！！！！\n");
-	}
-	if (append_arr(&array, 3)) {
-		printf("追加元素%d成功！！！\n", 1);
-	}
-	else {
-		printf("追加元素失败！！！！\n");
-	}
-	append_arr(&array, 4);
-	show_arr(&array);
-	if (insert_arr(&array, 6, -1)) {
-		printf("向位置%d插入元素%d成功！！！\n", 6, 4);
-	}
-	else {
-		printf("向位置%d插入元素%d失败！！！\n", 6, 4);
-	}
-	show_arr(&array);
-	inversion_arr(&array);
-	show_arr(&array);
-	return 0;
-}
-
-void init_arr(ArrayList* pArray, int len) {
-	pArray->pBase = (ElemType*)malloc(sizeof(ElemType) * len);
-	if (pArray->pBase == NULL) {
-		printf("动态内存分配失败！！！");
-		exit(-1);
-	}
-	pArray->len = len;
-	pArray->cnt = 0;
-	return;
-}
-
-void show_arr(ArrayList* pArray) {
-	int i;
-	if (is_empty(pArray)) {
-		printf("数组为空！！！");
-		return;
-	}
-	for (i = 0; i < pArray->cnt; i++) {
-		printf("%d\t", *(pArray->pBase + i));
-	}
-	printf("\n");
-}
-
-bool append_arr(ArrayList* pArray, ElemType elem) {
-	if (pArray->cnt == pArray->len) {
-		printf("当前数组已满！！！");
-		return false;
-	}
-	*(pArray->pBase + pArray->cnt) = elem;
-	pArray->cnt += 1;
-	return true;
-}
-
-bool insert_arr(ArrayList* pArray, ElemType elem, int index) {
-	int i;
-	// 插入位置校验
-	if (index < 1 || index > pArray->cnt + 1) {
-		printf("插入位置不符合要求！！！\n");
-		return false;
-	}
-	// 如果数组已满，不能插入
-	if (is_full(pArray)) {
-		printf("数组已满，不能插入数据");
-		return false;
-	}
-	// 1 2 3   2 = 1
-	for (i = pArray->cnt; i >= index - 1; i--) {
-		*(pArray->pBase + i + 1) = *(pArray->pBase + i);
-	}
-	*(pArray->pBase + index - 1) = elem;
-	pArray->cnt += 1;
-	return true;
-}
-
-void inversion_arr(ArrayList* pArray) {
-	int i = 0, j = pArray->cnt - 1;
-	// 如果数组为空，不用导致
-	if (is_empty(pArray)) {
-		printf("数组为空！不能倒置\n");
-		return;
-	}
-
-	while (i < j) {
-		ElemType temp = 0;
-		temp = pArray->pBase[i];
-		pArray->pBase[i] = pArray->pBase[j];
-		pArray->pBase[j] = temp;
-		i += 1;
-		j -= 1;
-	}
-	return;
-}
-
-bool is_empty(ArrayList* pArray) {
-	if (pArray->cnt == 0) {
-		return true;
-	}
-	return false;
-}
-
-bool is_full(ArrayList* pArray) {
-	if (pArray->cnt == pArray->len) {
-		return true;
-	}
-	return false;
-}
+//#include<stdio.h>
+//#include<malloc.h>
+//#include<stdlib.h>
+//
+//#define bool char
+//#define true 1
+//#define false 0
+//
+//typedef int ElemType;
+//
+//typedef struct Arr {
+//	ElemType* pBase; // 存储的是数组的第一个元素的地址
+//	int len; // 数组所能容纳的最大元素的个数
+//	int cnt; // 当前数组有效元素的个数
+//	//int increment; // 自动增长因子
+//}ArrayList;
+//
+//void init_arr(ArrayList*, int);
+//bool append_arr(ArrayList*,ElemType); // 追加
+//bool insert_arr(ArrayList*, ElemType, int); // 插入
+////bool delete_arr();
+////int get();
+//bool is_empty(ArrayList*);
+//bool is_full(ArrayList*);
+////void sort_arr();
+//void show_arr(ArrayList*);
+//void inversion_arr(ArrayList*);
+//
+//int main() {
+//	ArrayList array;
+//
+//	init_arr(&array, 10);
+//
+//	inversion_arr(&array);
+//
+//	if (append_arr(&array, 1)) {
+//		printf("追加元素%d成功！！！\n", 1);
+//	}
+//	else {
+//		printf("追加元素失败！！！！\n");
+//	}
+//	if (append_arr(&array, 2)) {
+//		printf("追加元素%d成功！！！\n", 1);
+//	}
+//	else {
+//		printf("追加元素失败！！！！\n");
+//	}
+//	if (append_arr(&array, 3)) {
+//		printf("追加元素%d成功！！！\n", 1);
+//	}
+//	else {
+//		printf("追加元素失败！！！！\n");
+//	}
+//	append_arr(&array, 4);
+//	show_arr(&array);
+//	if (insert_arr(&array, 6, -1)) {
+//		printf("向位置%d插入元素%d成功！！！\n", 6, 4);
+//	}
+//	else {
+//		printf("向位置%d插入元素%d失败！！！\n", 6, 4);
+//	}
+//	show_arr(&array);
+//	inversion_arr(&array);
+//	show_arr(&array);
+//	return 0;
+//}
+//
+//void init_arr(ArrayList* pArray, int len) {
+//	pArray->pBase = (ElemType*)malloc(sizeof(ElemType) * len);
+//	if (pArray->pBase == NULL) {
+//		printf("动态内存分配失败！！！");
+//		exit(-1);
+//	}
+//	pArray->len = len;
+//	pArray->cnt = 0;
+//	return;
+//}
+//
+//void show_arr(ArrayList* pArray) {
+//	int i;
+//	if (is_empty(pArray)) {
+//		printf("数组为空！！！");
+//		return;
+//	}
+//	for (i = 0; i < pArray->cnt; i++) {
+//		printf("%d\t", *(pArray->pBase + i));
+//	}
+//	printf("\n");
+//}
+//
+//bool append_arr(ArrayList* pArray, ElemType elem) {
+//	if (pArray->cnt == pArray->len) {
+//		printf("当前数组已满！！！");
+//		return false;
+//	}
+//	*(pArray->pBase + pArray->cnt) = elem;
+//	pArray->cnt += 1;
+//	return true;
+//}
+//
+//bool insert_arr(ArrayList* pArray, ElemType elem, int index) {
+//	int i;
+//	// 插入位置校验
+//	if (index < 1 || index > pArray->cnt + 1) {
+//		printf("插入位置不符合要求！！！\n");
+//		return false;
+//	}
+//	// 如果数组已满，不能插入
+//	if (is_full(pArray)) {
+//		printf("数组已满，不能插入数据");
+//		return false;
+//	}
+//	// 1 2 3   2 = 1
+//	for (i = pArray->cnt; i >= index - 1; i--) {
+//		*(pArray->pBase + i + 1) = *(pArray->pBase + i);
+//	}
+//	*(pArray->pBase + index - 1) = elem;
+//	pArray->cnt += 1;
+//	return true;
+//}
+//
+//void inversion_arr(ArrayList* pArray) {
+//	int i = 0, j = pArray->cnt - 1;
+//	// 如果数组为空，不用导致
+//	if (is_empty(pArray)) {
+//		printf("数组为空！不能倒置\n");
+//		return;
+//	}
+//
+//	while (i < j) {
+//		ElemType temp = 0;
+//		temp = pArray->pBase[i];
+//		pArray->pBase[i] = pArray->pBase[j];
+//		pArray->pBase[j] = temp;
+//		i += 1;
+//		j -= 1;
+//	}
+//	return;
+//}
+//
+//bool is_empty(ArrayList* pArray) {
+//	if (pArray->cnt == 0) {
+//		return true;
+//	}
+//	return false;
+//}
+//
+//bool is_full(ArrayList* pArray) {
+//	if (pArray->cnt == pArray->len) {
+//		return true;
+//	}
+//	return false;
+//}
 //bool append_arr(); // 追加
 //bool insert_arr(); // 插入
 //bool delete_arr();
