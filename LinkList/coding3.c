@@ -1,5 +1,340 @@
 /*链表练习文件*/
 
+/*2025/3/24离散存储练习*/
+//#include<stdio.h>
+//#include<malloc.h>
+//#include<stdlib.h>
+//
+//#define bool char
+//#define true 1
+//#define false 0
+//
+//typedef int ElemType;
+//
+//typedef struct Node {
+//	ElemType data;
+//	struct Node* next;
+//}*PNODE, NODE;
+//
+//PNODE create_list(); /*创建链表*/
+//void traverse_list(PNODE p); /*遍历链表*/
+//int length_list(PNODE p); /*求链表长度*/
+//bool insert_list(PNODE p, ElemType value, int position); /*向链表插入元素*/
+//bool delete_list(PNODE p, ElemType* elem, int position); /*删除元素*/
+//bool is_empty(PNODE p); /*链表是否为空*/
+///*使用双指针找到倒数第k个节点*/
+//int findNodeFS(PNODE L, int k, ElemType* elem);
+//
+//int main() {
+//	PNODE p;
+//	ElemType elem;
+//	int flag;
+//	p = create_list();
+//	insert_list(p, 1, 1);
+//	insert_list(p, 2, 2);
+//	insert_list(p, 3, 3);
+//	insert_list(p, 4, 4);
+//	insert_list(p, 5, 5);
+//	traverse_list(p);
+//	/*delete_list(p, &elem, 2);
+//	traverse_list(p);*/
+//	flag = findNodeFS(p, 3, &elem);
+//	if (flag) {
+//		printf("元素：%d，标记：%d\n", elem, flag);
+//	}
+//	else {
+//		printf("标记：%d\n", flag);
+//	}
+//	return 0;
+//}
+//
+//PNODE create_list() {
+//	PNODE pHead;
+//	/*1. 头节点动态内存申请空间，返回首地址*/
+//	pHead = (PNODE)malloc(sizeof(NODE));
+//	if (pHead == NULL) {
+//		printf("动态内存分配失败！！！\n");
+//		exit(-1);
+//	}
+//
+//	/*2. pHead的指针域指向NULL*/
+//	pHead->next = NULL;
+//	return pHead;
+//}
+//
+//void traverse_list(PNODE p) {
+//	PNODE q = p->next;
+//	// 1. 如果链表为空
+//	if (is_empty(p)) {
+//		printf("空链表！！！\n");
+//		return;
+//	}
+//	// 2. 遍历链表
+//	printf("元素为：");
+//	while (q) {
+//		printf("%d\t", q->data);
+//		q = q->next;
+//	}
+//	printf("\n");
+//}
+//
+//bool is_empty(PNODE p) {
+//	if (p->next == NULL) {
+//		return true;
+//	}
+//	return false;
+//}
+//
+//int length_list(PNODE p) {
+//	int length = 0;
+//	PNODE q = p->next;
+//	// 1. 空链表
+//	if (is_empty(p)) {
+//		return 0;
+//	}
+//	// 2. 计算长度
+//	while (q) {
+//		length++;
+//		q = q->next;
+//	}
+//	return length;
+//}
+//
+//bool delete_list(PNODE p, ElemType* elem, int position) {
+//	int length = 0, i;
+//	PNODE q;
+//	length = length_list(p);
+//	// 1. 判断删除位置是否合理
+//	if (position < 1 || position > length) return false;
+//	// 2. 判断链表是否为空
+//	if (is_empty(p)) return false;
+//	// 3.寻找删除节点
+//	for (i = 0; i < position - 1; i++) {
+//		p = p->next;
+//	}
+//	// 4. 保存被删节点数据
+//	q = p->next;
+//	*elem = q->data;
+//	// 5.
+//	p->next = q->next;
+//	free(q);
+//	return true;
+//}
+//
+//bool insert_list(PNODE p, ElemType value, int position) {
+//	int length, i;
+//	PNODE q = p;
+//	length = length_list(p);
+//	// 1. 位置是否合理
+//	if (position < 1 || position > length + 1) {
+//		return false;
+//	}
+//	// 2. 找到插入位置之前的节点
+//	for (i = 0; i < position - 1; i++) {
+//		q = q->next;
+//	}
+//	// 3. 创建新节点
+//	PNODE pNew;
+//	pNew = (PNODE)malloc(sizeof(NODE));
+//	if (pNew == NULL) {
+//		printf("动态内存分配失败！！！\n");
+//		exit(-1);
+//	}
+//	pNew->data = value;
+//	pNew->next = q->next;
+//	q->next = pNew;
+//	return true;
+//}
+//
+//int findNodeFS(PNODE L, int k, ElemType* elem) {
+//	PNODE fast, slow;
+//	int i;
+//	// 1. fast指针指向第k个节点
+//	fast = L->next;
+//	for (i = 0; i < k - 1; i++) {
+//		fast = fast->next;
+//	}
+//	// 如果链表节点小于3的情况下
+//	if (!fast) {
+//		return 0;
+//	}
+//	//fast = fast->next;
+//	// 2. 寻找倒数第k个节点并返回值。
+//	slow = L->next;
+//	while (fast->next != NULL) {
+//		fast = fast->next;
+//		slow = slow->next;
+//	}
+//	*elem = slow->data;
+//	return 1;
+//}
+
+/*2025/3/24连续存储练习*/
+//#include<stdio.h>
+//#include<malloc.h>
+//#include<stdlib.h>
+//
+//#define bool char
+//#define true 1
+//#define false 0
+//
+//typedef int ElementType;
+//
+//typedef struct Array {
+//	ElementType* array;
+//	int length;
+//	int current;
+//}*pArray, Array;
+//
+//void init_array(pArray p, int length);
+//void traverse_array(pArray p);
+//void inversion_array(pArray p);
+//bool append_array(pArray p, ElementType value);
+//bool insert_array(pArray p, ElementType value, int position);
+//bool delete_array(pArray p, ElementType* element, int position);
+//bool is_empty(pArray p);
+//bool is_full(pArray p);
+//
+//int main() {
+//	Array array;
+//	int position;
+//	ElementType element;
+//	init_array(&array, 4);
+//	append_array(&array, 1);
+//	append_array(&array, 2);
+//	append_array(&array, 3);
+//	traverse_array(&array);
+//	position = 1;
+//	insert_array(&array, 99, position);
+//	traverse_array(&array);
+//	/*delete_array(&array, &element, position);
+//	traverse_array(&array);*/
+//	inversion_array(&array);
+//	traverse_array(&array);
+//	return 0;
+//}
+//
+//void init_array(pArray p, int length) {
+//	p->array = (ElementType*)malloc(sizeof(ElementType) * length);
+//	if (p->array == NULL) {
+//		printf("动态内存分配失败！！！\n");
+//		exit(-1);
+//	}
+//	p->length = length;
+//	p->current = 0;
+//}
+//
+//void traverse_array(pArray p) {
+//	int i;
+//	if (is_empty(p)) {
+//		printf("数组为空！\n");
+//		return;
+//	}
+//	printf("数组元素为：");
+//	for (i = 0; i < p->current; i++) {
+//		printf("%d\t", p->array[i]);
+//	}
+//	printf("\n");
+//	return;
+//}
+//
+//void inversion_array(pArray p) {
+//	int i, n;
+//	ElementType temp;
+//	// 1. 如果数组为空
+//	if (is_empty(p)) {
+//		printf("数组为空！\n");
+//		return;
+//	}
+//	// 2. 如果数组只有一个元素
+//	if (p->current == 1) {
+//		return;
+//	}
+//	// 3. 倒置
+//	n = p->current;
+//	for (i = 0; i < n / 2; i++) {
+//		temp = p->array[i];
+//		p->array[i] = p->array[n - 1 - i];
+//		p->array[n - 1 - i] = temp;
+//	}
+//	return;
+//}
+//
+//bool append_array(pArray p, ElementType value) {
+//	// 1. 数组已满
+//	if (is_full(p)) {
+//		return false;
+//	}
+//	// 2. 数组末尾追加元素
+//	p->array[p->current] = value;
+//	p->current++;
+//	return true;
+//}
+//
+//bool insert_array(pArray p, ElementType value, int position) {
+//	int i;
+//	// 1. 位置不符合
+//	if (position < 1 || position > p->current + 1) {
+//		return false;
+//	}
+//	// 2. 数组已满
+//	if (is_full(p)) {
+//		return false;
+//	}
+//	// 3. 如果元素为追加
+//	if (position == p->current + 1) {
+//		p->array[p->current] = value;
+//		p->current++;
+//		return true;
+//	}
+//	// 4. 插入元素
+//	for (i = p->current; i > position - 2; i--) {
+//		p->array[i] = p->array[i - 1];
+//	}
+//	p->array[position - 1] = value;
+//	p->current++;
+//	return true;	
+//}
+//
+//bool delete_array(pArray p, ElementType* element, int position) {
+//	int i;
+//	// 1. 位置不符合
+//	if (position < 1 || position > p->current + 1) {
+//		return false;
+//	}
+//	// 2. 数组为空
+//	if (is_empty(p)) {
+//		return false;
+//	}
+//	*element = p->array[p->current];
+//	// 3. 如果元素为当前数组有效元素最后一个
+//	if (position == p->current) {
+//		p->current--;
+//		return true;
+//	}
+//	// 4. 删除元素
+//	for (i = position - 1; i < p->current - 1; i++) {
+//		p->array[i] = p->array[i + 1];
+//	}
+//	p->current--;
+//	return true;
+//}
+//
+//bool is_empty(pArray p) {
+//	if (p->current == 0) {
+//		return true;
+//	}
+//	return false;
+//}
+//
+//bool is_full(pArray p) {
+//	if (p->current == p->length) {
+//		return true;
+//	}
+//	return false;
+//}
+
+
 /*2025/3/24线性表*/
 //#include<stdio.h>
 //#include<malloc.h>
