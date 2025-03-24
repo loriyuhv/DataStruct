@@ -1,5 +1,171 @@
 /*链表练习文件*/
 
+/*2025/3/24线性表*/
+//#include<stdio.h>
+//#include<malloc.h>
+//#include<stdlib.h>
+//
+//#define bool char
+//#define true 1
+//#define false 0
+//
+//typedef struct Node {
+//	int data; // 数据域
+//	struct Node* pNext; // 指针域
+//}*PNODE, NODE;
+//
+//PNODE create_list(); /*创建链表*/
+//void traverse_list(PNODE pHead); /*遍历链表*/
+//bool is_empty(PNODE pHead); /*链表是否为空*/
+//bool insert_list(PNODE pHead, int pos, int val); /*插入元素*/
+//bool delete_list(PNODE pHead, int pos, int* e); /*删除元素*/
+//
+//int main() {
+//	int pos, e;
+//	PNODE p = NULL;
+//	p = create_list();
+//	traverse_list(p);
+//	pos = 1;
+//	//insert_list(p, pos, 99);
+//	//traverse_list(p);
+//	if (delete_list(p, pos, &e)) {
+//		printf("删除位置%d的元素%d成功！！！\n", pos, e);
+//	}
+//	else {
+//		printf("删除位置%d的元素失败！！！\n", pos);
+//	}
+//	traverse_list(p);
+//
+//	// 链表长度
+//	//printf("%d\n", length_list(p));
+//	return 0;
+//}
+//
+//PNODE create_list() {
+//	int len; /*用来存放节点的个数*/
+//	int i;
+//	int val; /*用来临时存放用户输入节点的值*/
+//
+//	/*分配一个不存放有效数据的头节点*/
+//	PNODE pHead = (PNODE)malloc(sizeof(NODE));
+//	if (pHead == NULL) {
+//		printf("动态内存分配失败！！！\n");
+//		exit(-1);
+//	}
+//
+//	PNODE pTail = pHead;
+//	pTail->pNext = NULL;
+//
+//	printf("请输入您要生成链表节点的个数：");
+//	scanf_s("%d", &len);
+//	loop:if (len < 0) {
+//		printf("输入错误，请输入大于1的整数：");
+//		scanf_s("%d", &len);
+//		goto loop;
+//	}
+//
+//	for (i = 0; i < len; i++) {
+//		printf("请输入%d个节点的值：", i + 1);
+//		scanf_s("%d", &val);
+//
+//		PNODE pNew = (PNODE)malloc(sizeof(NODE));
+//		if (pNew == NULL) {
+//			printf("动态内存分配失败！！！\n");
+//			exit(-1);
+//		}
+//		pNew->data = val;
+//		pTail->pNext = pNew;
+//		pNew->pNext = NULL;
+//		pTail = pNew;
+//	}
+//
+//	return pHead;
+//}
+//
+//void traverse_list(PNODE pHead) {
+//	PNODE pTail = pHead->pNext;
+//	if (is_empty(pHead)) {
+//		printf("链表为空！！！\n");
+//		return;
+//	}
+//	printf("链表元素为：");
+//	while (pTail != NULL) {
+//		printf("%d\t", pTail->data);
+//		pTail = pTail->pNext;
+//	}
+//	printf("\n");
+//}
+//
+//bool is_empty(PNODE pHead) {
+//	if (pHead->pNext == NULL) {
+//		return true;
+//	}
+//	return false;
+//}
+//
+//bool insert_list(PNODE pHead, int pos, int val) {
+//	int length, i;
+//	length = length_list(pHead);
+//	if (pos < 1 || pos > length + 1) {
+//		return false;
+//	}
+//	/*if (pos == length + 1) {
+//		
+//	}*/
+//	// 1 2 3   pos:2    p:1
+//	PNODE p = pHead;
+//	for (i = 1; i < pos; i++) {
+//		p = p->pNext;
+//	}
+//	PNODE pNew = (PNODE)malloc(sizeof(NODE));
+//	if (pNew == NULL) {
+//		printf("动态内存分配失败！！！\n");
+//		exit(-1);
+//	}
+//	pNew->data = val;
+//	pNew->pNext = p->pNext;
+//	p->pNext = pNew;
+//	return true;
+//}
+//
+//bool delete_list(PNODE pHead, int pos, int* e) {
+//	int length, i;
+//	PNODE p = pHead, q;
+//	length = length_list(pHead);
+//	// 删除位置不合理
+//	if (pos < 1 || pos > length) {
+//		return false;
+//	}
+//	// 链表为空！！！
+//	if (is_empty(pHead)) {
+//		printf("空链表！！！\n");
+//		return false;
+//	}
+//	for (i = 0; i < pos - 1; i++) {
+//		p = p->pNext;
+//	}
+//	q = p->pNext;
+//	p->pNext = q->pNext;
+//	*e = q->data;
+//	free(q);
+//	return true;
+//}
+//
+//int length_list(PNODE pHead) {
+//	int length = 0;
+//	if (is_empty(pHead)) {
+//		return 0;
+//	}
+//
+//	PNODE p = pHead->pNext;
+//	while (p != NULL) {
+//		length++;
+//		p = p->pNext;
+//	}
+//	return length;
+//}
+//
+
 /*2025/3/23线性表*/
 //#include<stdio.h>
 //#include<malloc.h>
